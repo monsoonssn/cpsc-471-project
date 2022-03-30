@@ -1,0 +1,866 @@
+stringopenapi: 3.1.0
+info:
+  title: CPSC471 API Spec
+  version: '1.0'
+  description: An API designed to query the real estate database through the project's frontend
+  contact:
+    name: CPSC 471 Team
+    email: noemailsplease@nothanks.com
+servers:
+  - description: ''
+    url: 'https://cpsc-471-project-3leci.ondigitalocean.app/api'
+  - url: 'https://localhost:3001'
+    description: ''
+paths:
+  '/users/{usersId}':
+    parameters:
+      - schema:
+          type: string
+        name: usersId
+        in: path
+        required: true
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+      parameters: []
+  /client:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples: {}
+      operationId: get-clients
+      description: Gets all the clients in the database
+    post:
+      summary: ''
+      operationId: post-client
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                New Client Bob:
+                  value:
+                    email: bob.fellow@gmail.com
+                    fname: Bob
+                    phone_num: '12340131234'
+                    agent_email: agent@company.com
+        '400':
+          description: Bad Request
+      description: Adds a new client to the database with the input information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                fname:
+                  type: string
+                lname:
+                  type: string
+                phone_num:
+                  type: string
+                agent_email:
+                  type: string
+              required:
+                - email
+                - fname
+        description: ''
+    parameters: []
+  '/client/{clientEmail}':
+    parameters:
+      - schema:
+          type: string
+        name: clientEmail
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                schema: null
+                $ref: '#/components/schemas/Client'
+              examples:
+                Get Client Alice Keith:
+                  value:
+                    email: alice.keith@gmail.com
+                    fname: Alice
+                    lname: Keith
+                    phone_num: '57981792347'
+                    agent_email: agent@reagency.com
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-client-clientEmail
+      description: Gets a specific Client from the database using their email as a key
+      parameters: []
+    patch:
+      summary: ''
+      operationId: patch-client-clientEmail
+      responses:
+        '200':
+          description: OK
+      description: Update certain information about the given client
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                fname:
+                  type: string
+                lname:
+                  type: string
+                phone_num:
+                  type: string
+                agent_email:
+                  type: string
+            examples:
+              Change first name:
+                value:
+                  fname: Keith
+              Change phone number and agent email:
+                value:
+                  phone_num: '127398421'
+                  agent_email: agent2@immobiliere.com
+        description: Patch client properties to update
+  /buyer:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+      operationId: get-buyers
+      description: Gets all the Buyers in the database
+    post:
+      summary: ''
+      operationId: post-buyer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+        '400':
+          description: Bad Request
+      description: Adds a new Buyer to the database using the given input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                budget:
+                  type: integer
+                type:
+                  type: string
+                requirement_id:
+                  type: integer
+              required:
+                - email
+                - budget
+                - type
+                - requirement_id
+            examples:
+              Adding Buyer Mary Poppins:
+                value:
+                  email: mary.poppins@gmail.com
+                  budget: 81209348190834
+                  type: Investor
+                  requirement_id: 23
+        description: ''
+  '/buyer/{buyerEmail}':
+    parameters:
+      - schema:
+          type: string
+        name: buyerEmail
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+              examples:
+                Get Buyer from Arto Hellas' email:
+                  value:
+                    email: arto.hellas@gmail.com
+                    bugdet: 450000
+                    type: First Time Buyer
+                    requirement_id: 231
+      operationId: get-buyer-buyerEmail
+      description: Gets a specific Buyer from the database using a Buyer's email as a key
+    patch:
+      summary: ''
+      operationId: patch-buyer-buyerEmail
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                budget:
+                  type: integer
+                type:
+                  type: string
+                requirement_id:
+                  type: integer
+            examples:
+              Change budget:
+                value:
+                  budget: 700000
+              Change type and requirement id:
+                value:
+                  type: Relocation
+                  requirement_id: 283
+        description: Patch client properties to update
+      description: Update certain information about the given Buyer
+  /renter:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renter'
+      operationId: get-renters
+      description: Gets all the Renters from the database
+    post:
+      summary: ''
+      operationId: post-renter
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renter'
+        '400':
+          description: Bad Request
+      description: Add a new Renter with the given information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                budget:
+                  type: integer
+                requirement_id:
+                  type: integer
+              required:
+                - email
+                - budget
+                - requirement_id
+            examples:
+              Add Renter Guy Fawkes by email:
+                value:
+                  email: guy.fawkes@gmail.com
+                  budget: 500000
+                  requirement_id: 23
+        description: ''
+  '/renter/{renterEmail}':
+    parameters:
+      - schema:
+          type: string
+        name: renterEmail
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renter'
+        '201':
+          description: Created
+      operationId: get-renter-renterEmail
+    patch:
+      summary: ''
+      operationId: patch-renter-renterEmail
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                budget:
+                  type: integer
+                requirement_id:
+                  type: integer
+            examples:
+              example-1:
+                value:
+                  email: abc@123.com
+                  budget: 500
+                  requirement_id: 20
+        description: Patch client properties to update
+      description: Update certain information about the given Renter
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+    Client:
+      title: Client
+      type: object
+      examples:
+        - email: client@company.com
+          fname: Arto
+          lname: Hellas
+          phone_num: '1234567890'
+          agent_email: agent@reagency.com
+      description: A client (Buyer/Seller/Renter/Landlord)
+      properties:
+        email:
+          type: string
+        fname:
+          type: string
+        lname:
+          type: string
+        phone_num:
+          type: string
+        agent_email:
+          type: string
+      required:
+        - email
+        - fname
+    Buyer:
+      title: Buyer
+      type: object
+      description: 'Buyer is a subclass of Client, that may be interested in buying a property lister by some Seller(s)'
+      examples:
+        - email: buyer@gmail.com
+          bugdet: 450000
+          type: First Time Buyer
+          requirement_id: 1234
+      properties:
+        email:
+          type: string
+        bugdet:
+          type: integer
+          description: A budget in dollars
+        type:
+          type: string
+          description: 'Type of buyer includes: First Time Buyer, Investor, Relocation (selling current home and buying new one), '
+        requirement_id:
+          type: integer
+      required:
+        - email
+        - bugdet
+        - type
+        - requirement_id
+    Renter:
+      title: Renter
+      type: object
+      description: A Renter is a subclass of client and is someone looking to rent Rental Property. Their budget is in dollars per month.
+      examples:
+        - email: mcemail@gmail.com
+          budget: 1000
+          requirement_id: 46
+      properties:
+        email:
+          type: string
+        budget:
+          type: integer
+          description: A budget in dollars
+        requirement_id:
+          type: integer
+      required:
+        - email
+        - budget
+        - requirement_id
+    Landlord:
+      title: Landlord
+      type: object
+      description: A Landlord is a subclass of client and owns property that Renters are looking to rent
+      examples:
+        - email: landlord@gmail.com
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    Contact:
+      title: Contact
+      type: object
+      examples:
+        - email: contact@hotmail.com
+          client_email: client@company.com
+          fname: Volodymyr
+          lname: Zelenskyy
+          phone_num: '7954832723'
+          relationship: Father
+      description: A secondary contact for a Client so that the Agent has another point of contact
+      properties:
+        email:
+          type: string
+        client_email:
+          type: string
+        fname:
+          type: string
+        lname:
+          type: string
+        phone_num:
+          type: string
+        relationship:
+          type: string
+          description: The relationship to the client
+      required:
+        - email
+        - client_email
+        - fname
+        - relationship
+    Agent:
+      title: Agent
+      type: object
+      examples:
+        - email: bob.keller@yahoo.ca
+          fname: bob
+          lname: keller
+          phone_num: '6666666666'
+          city: Dallas
+      description: Agents represent clients
+      properties:
+        email:
+          type: string
+        fname:
+          type: string
+        lname:
+          type: string
+        phone_num:
+          type: string
+        city:
+          type: string
+      required:
+        - email
+        - fname
+        - lname
+        - city
+    Appointment:
+      title: Appointment
+      type: object
+      examples:
+        - id: 40
+          date: 03/24/2022
+          time: '15:30'
+          location: Online
+      description: An agent can make an appointment with another agent or with a client.
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        time:
+          type: string
+        location:
+          type: string
+      required:
+        - id
+        - date
+        - time
+        - location
+    Listing:
+      title: Listing
+      type: object
+      description: A Seller puts up a Listing for their property if they are looking to sell it off to some Buyers
+      examples:
+        - id: 0
+          unit_number: 4A
+          street_number: '9'
+          street_name: Street
+          city: Cowtown
+          postal_code: A1B2C3
+          asking_price: 250000
+          listing_date: '2021-08-19'
+          strata_cost_per_month: 20
+          parking: Nice parking
+          year_built: 2010
+          sq_feet: 2500
+          bedrooms: 2
+          bathrooms: 2.5
+          neighbourhood: Doremifasolati
+          garage: 2 car garage
+          yard: 100
+          seller_email: seller@gmail.com
+      properties:
+        id:
+          type: integer
+        unit_number:
+          type: string
+        street_number:
+          type: string
+        street_name:
+          type: string
+        city:
+          type: string
+        postal_code:
+          type: string
+        asking_price:
+          type: integer
+        listing_date:
+          type: string
+        strata_cost_per_month:
+          type: integer
+        parking:
+          type: string
+        year_built:
+          type: integer
+        sq_feet:
+          type: integer
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: number
+        neighbourhood:
+          type: string
+        garage:
+          type: string
+        yard:
+          type: integer
+        seller_email:
+          type: string
+      required:
+        - id
+        - street_number
+        - street_name
+        - city
+        - postal_code
+        - asking_price
+        - listing_date
+        - year_built
+        - sq_feet
+        - bedrooms
+        - bathrooms
+        - seller_email
+    RentalProperty:
+      title: RentalProperty
+      type: object
+      description: A Landlord puts up a RentalProperty to look for Renters to be tenants and rent their property
+      examples:
+        - id: 0
+          unit_number: 7B
+          street_number: '9'
+          street_name: Street
+          city: Cowtown
+          postal_code: A1B2C3
+          asking_price: 250000
+          listing_date: '2021-10-19'
+          strata_cost_per_month: 0
+          parking: None whatsoever sorry
+          year_built: 2017
+          sq_feet: 1738
+          bedrooms: 2
+          bathrooms: 2
+          neighbourhood: Doremifasolati
+          garage: No garage
+          yard: 50
+          landlord_email: landlord@gmail.com
+      properties:
+        id:
+          type: integer
+        unit_number:
+          type: string
+        street_number:
+          type: string
+        street_name:
+          type: string
+        city:
+          type: string
+        postal_code:
+          type: string
+        asking_price:
+          type: integer
+        listing_date:
+          type: string
+        strata_cost_per_month:
+          type: integer
+        parking:
+          type: string
+        year_built:
+          type: integer
+        sq_feet:
+          type: integer
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: number
+        neighbourhood:
+          type: string
+        garage:
+          type: string
+        yard:
+          type: integer
+        landlord_email:
+          type: string
+      required:
+        - id
+        - street_number
+        - street_name
+        - city
+        - postal_code
+        - asking_price
+        - listing_date
+        - year_built
+        - sq_feet
+        - bedrooms
+        - bathrooms
+        - landlord_email
+    Requirement:
+      title: Requirement
+      type: object
+      description: A buyer or renter can specify certain things they are looking for in a listing/ rental property
+      examples:
+        - id: 50
+          year_built: 2010
+          sq_feet: 3500
+          bedrooms: 4
+          bathrooms: 2.5
+          neighbourhood: University District
+          garage: 2 car detached
+          yard: 200
+      properties:
+        id:
+          type: integer
+        year_built:
+          type: integer
+        sq_feet:
+          type: integer
+        bedrooms:
+          type: integer
+        bathrooms:
+          type: number
+        neighbourhood:
+          type: string
+        garage:
+          type: string
+        yard:
+          type: integer
+      required:
+        - id
+  securitySchemes: {}
