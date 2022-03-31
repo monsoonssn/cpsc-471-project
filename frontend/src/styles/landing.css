@@ -1,0 +1,23 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.landing_content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* width: 100%;
+  height: 100%; */
+  flex-grow: 1;
+}
+
+.landing_btns {
+  display: flex;
+  gap: 1.15em;
+}

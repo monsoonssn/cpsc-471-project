@@ -1,0 +1,60 @@
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+  margin: 15vh 27vw 15vh 27vw;
+  height: 100%;
+}
+
+/* .signup-title {
+  padding-top: 10px;
+  padding-left: 15px;
+} */
+
+.form-control {
+  /* font-family: system-ui, sans-serif; */
+  /* font-size: 2rem; */
+  font-weight: bold;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.75em;
+}
+
+input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.1em solid currentColor;
+  border-radius: 50%;
+  /* transform: translateY(-0.55em); */
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em black;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.form-control + .form-control {
+  margin-top: 1em;
+}
