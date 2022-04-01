@@ -1,4 +1,4 @@
-stringopenapi: 3.1.0
+openapi: 3.1.0
 info:
   title: CPSC471 API Spec
   version: '1.0'
@@ -152,7 +152,7 @@ paths:
       parameters: []
   /client:
     get:
-      summary: Your GET endpoint
+      summary: Get all clients info
       tags: []
       responses:
         '200':
@@ -165,7 +165,7 @@ paths:
       operationId: get-clients
       description: Gets all the clients in the database
     post:
-      summary: ''
+      summary: Add new Client
       operationId: post-client
       responses:
         '200':
@@ -213,7 +213,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get specific client
       tags: []
       responses:
         '200':
@@ -239,7 +239,7 @@ paths:
       description: Gets a specific Client from the database using their email as a key
       parameters: []
     patch:
-      summary: ''
+      summary: update specific client info
       operationId: patch-client-clientEmail
       responses:
         '200':
@@ -272,7 +272,7 @@ paths:
         description: Patch client properties to update
   /buyer:
     get:
-      summary: Your GET endpoint
+      summary: Gets All Buyers
       tags: []
       responses:
         '200':
@@ -284,7 +284,7 @@ paths:
       operationId: get-buyers
       description: Gets all the Buyers in the database
     post:
-      summary: ''
+      summary: Adds New Buyer
       operationId: post-buyer
       responses:
         '200':
@@ -331,7 +331,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get Specific Buyer
       tags: []
       responses:
         '200':
@@ -350,7 +350,7 @@ paths:
       operationId: get-buyer-buyerEmail
       description: Gets a specific Buyer from the database using a Buyer's email as a key
     patch:
-      summary: ''
+      summary: Update Specific Buyer
       operationId: patch-buyer-buyerEmail
       responses:
         '200':
@@ -385,11 +385,11 @@ paths:
                 value:
                   type: Relocation
                   requirement_id: 283
-        description: Patch client properties to update
+        description: Patch Buyer properties to update
       description: Update certain information about the given Buyer
   /renter:
     get:
-      summary: Your GET endpoint
+      summary: Get All Renters
       tags: []
       responses:
         '200':
@@ -401,7 +401,7 @@ paths:
       operationId: get-renters
       description: Gets all the Renters from the database
     post:
-      summary: ''
+      summary: Add A New Renter
       operationId: post-renter
       responses:
         '200':
@@ -444,7 +444,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: Get Specific Renter
       tags: []
       responses:
         '200':
@@ -453,15 +453,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Renter'
-        '201':
-          description: Created
       operationId: get-renter-renterEmail
+      description: Gets a specific renter from the database using a renter's email as a key
     patch:
-      summary: ''
+      summary: Update Specific Renter
       operationId: patch-renter-renterEmail
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renter'
         '404':
           description: Not Found
       requestBody:
@@ -477,13 +480,880 @@ paths:
                 requirement_id:
                   type: integer
             examples:
-              example-1:
+              'Changes email, budget, and requirement':
                 value:
                   email: abc@123.com
                   budget: 500
                   requirement_id: 20
+              Changes only email:
+                value:
+                  email: hello@gmail.com
+              Changes budge and requirement:
+                value:
+                  budget: 400
+                  requirement_id: 6
         description: Patch client properties to update
       description: Update certain information about the given Renter
+  /landlord:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Renter'
+      operationId: get-landlord
+      description: Gets all the Landlords from the database
+    post:
+      summary: Add new Landlord
+      operationId: post-landlord
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Landlord'
+      description: Add a new Landlord with the given information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+  '/landlord{landlordEmail}':
+    parameters:
+      - schema:
+          type: string
+        name: landlordEmail
+        in: path
+        required: true
+    get:
+      summary: Get Specific Landlord
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Landlord'
+      operationId: get-landlord-landlordEmail
+      description: Gets a specific landlord from the database using a landlord's email as a key
+    patch:
+      summary: Update Specific Landlord
+      operationId: patch-landlord-landlordEmail
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Landlord'
+      description: Update certain information about the given Landlord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+            examples:
+              Changes Landlord Email:
+                value:
+                  email: waldo@hotmail.com
+        description: Patch Landlord properties to update
+  /contact:
+    get:
+      summary: Get Contact Info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+      operationId: get-contacts
+      description: Gets all the Contacts from the database
+    post:
+      summary: Add New Contact
+      operationId: post-contact
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '400':
+          description: Bad Request
+      description: Add a new Contact to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                client_email:
+                  type: string
+                fname:
+                  type: string
+                lname:
+                  type: string
+                phone_num:
+                  type: string
+                relationship:
+                  type: string
+              required:
+                - email
+                - client_email
+                - fname
+                - relationship
+            examples:
+              'Add Contact father to Alice Keith, Bob Keith':
+                value:
+                  email: bob.keith@gmail.com
+                  client_email: alice.keith@gmail.com
+                  fname: Bob
+                  lname: Keith
+                  phone_num: '73481932749'
+                  relationship: Father
+  '/contact/{contactEmail}':
+    parameters:
+      - schema:
+          type: string
+        name: contactEmail
+        in: path
+        required: true
+    get:
+      summary: Get Specific Contact Info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+      operationId: get-contact-contactEmail
+      description: Get a specific Contact using their email as a key
+    patch:
+      summary: Update Contact Info
+      operationId: patch-contact-contactEmail
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+      description: Update certain information about the given Contact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                fname:
+                  type: string
+                lname:
+                  type: string
+                phone_num:
+                  type: string
+                relationship:
+                  type: string
+            examples:
+              Change first and last name:
+                value:
+                  fname: Hasbulla
+                  lname: Magomedov
+              Change relationship:
+                value:
+                  relationship: Son
+        description: Patch Contact properties to update
+  /agent:
+    get:
+      summary: Get All Agents Info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+      operationId: get-agent
+      description: Gets a specific agent from the database using a agent's email as a key
+    post:
+      summary: Add new Agent
+      operationId: post-agent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '400':
+          description: Bad Request
+      description: Add a new Agent to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                fname:
+                  type: string
+                lname:
+                  type: string
+                phone_num:
+                  type: string
+                city:
+                  type: string
+              required:
+                - email
+                - fname
+                - lname
+                - city
+            examples:
+              'Add Agent Greg Howard ':
+                value:
+                  email: greg.howard@email.ca
+                  fname: Greg
+                  lname: Howard
+                  phone_num: '5555555555'
+                  city: Salt Lake City
+  '/agent/{agentEmail}':
+    parameters:
+      - schema:
+          type: string
+        name: agentEmail
+        in: path
+        required: true
+    get:
+      summary: Get Agent Info by Agent email
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+      operationId: get-agent-agentEmail
+      description: Get a specific Agent using the Agent's email as a key
+    patch:
+      summary: Update Agent Info
+      operationId: patch-agent-agentEmail
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+      description: Update certain information about the given Agent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                fname:
+                  type: string
+                lname:
+                  type: string
+                phone_num:
+                  type: string
+                city:
+                  type: string
+            examples:
+              Change city:
+                value:
+                  city: Hell
+              Change phone number and name:
+                value:
+                  fname: John
+                  lname: Cena
+                  phone_num: '6789998212'
+        description: Patch Agent properties to update
+  /appointment:
+    get:
+      summary: Get All Appointments Info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+      operationId: get-Appointment
+      description: Gets all the Appointments from the database
+    parameters: []
+    post:
+      summary: Add New Appointment
+      operationId: post-appointment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        '400':
+          description: Bad Request
+      description: Add a new Appointment to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                time:
+                  type: string
+                location:
+                  type: string
+              required:
+                - date
+                - time
+                - location
+            examples:
+              Adding a new appointment:
+                value:
+                  date: '2022-04-15'
+                  time: '15:10'
+                  location: Online
+        description: ''
+  '/appointment/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Specific Appointment
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+      operationId: get-appointment-id
+      description: Get a specific Appointment using the Appointment's id as a key
+    patch:
+      summary: Update Specific Appointment
+      operationId: patch-appointment-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+      description: Update certain information about the given Appointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                time:
+                  type: string
+                location:
+                  type: string
+            examples:
+              Change appointment location:
+                value:
+                  location: Meeting Room 5
+        description: Patch Appointment properties to update
+  /listing:
+    get:
+      summary: Gets all listings info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listing'
+      operationId: get-listing
+      description: Gets all the Listings from the database
+    post:
+      summary: Add New Listing
+      operationId: post-listing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listing'
+        '400':
+          description: Bad Request
+      description: Add a new Listing to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                unit_number:
+                  type: string
+                street_number:
+                  type: integer
+                street_name:
+                  type: string
+                city:
+                  type: string
+                postal_code:
+                  type: string
+                asking_price:
+                  type: integer
+                listing_date:
+                  type: string
+                strata_cost_per_month:
+                  type: integer
+                parking:
+                  type: string
+                year_built:
+                  type: integer
+                sq_feet:
+                  type: integer
+                bedrooms:
+                  type: integer
+                bathrooms:
+                  type: number
+                neighbourhood:
+                  type: string
+                garage:
+                  type: string
+                yard:
+                  type: integer
+                seller_email:
+                  type: string
+              required:
+                - street_number
+                - street_name
+                - city
+                - postal_code
+                - asking_price
+                - listing_date
+                - year_built
+                - sq_feet
+                - bedrooms
+                - bathrooms
+                - seller_email
+            examples:
+              Adding A New Listing:
+                value:
+                  street_number: 50
+                  street_name: norford street
+                  city: Brisbane
+                  postal_code: V0K2G0
+                  asking_price: 45000000
+                  listing_date: '2021-01-01'
+                  parking: Street Parking and large driveway
+                  year_built: 2011
+                  sq_feet: 5000
+                  bedrooms: 10
+                  bathrooms: 10.5
+                  neighbourhood: Spring Bank
+                  garage: 4 car attached
+                  yard: 7000
+                  seller_email: seller@gmail.com
+  '/listing/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Specific Listing
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listing'
+      operationId: get-listing-id
+      description: Get a specific Listing using the Listing's id as a key
+    patch:
+      summary: Update Specific Listing
+      operationId: patch-listing-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listing'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                unit_number:
+                  type: string
+                street_number:
+                  type: integer
+                street_name:
+                  type: string
+                city:
+                  type: string
+                postal_code:
+                  type: string
+                asking_price:
+                  type: integer
+                listing_date:
+                  type: string
+                strata_cost_per_month:
+                  type: integer
+                parking:
+                  type: string
+                year_built:
+                  type: integer
+                sq_feet:
+                  type: integer
+                bedrooms:
+                  type: integer
+                bathrooms:
+                  type: number
+                neighbourhood:
+                  type: string
+                garage:
+                  type: string
+                yard:
+                  type: integer
+                seller_email:
+                  type: string
+            examples:
+              Updating address information:
+                value:
+                  unit_number: 7B
+                  street_number: 21
+                  street_name: Memorial Avenue
+        description: Patch Listing properties to update
+      description: Update certain information about the given Listing
+  /rental_property:
+    get:
+      summary: Gets all Rental Property's info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalProperty'
+      operationId: get-rental_property
+      description: Gets all the RentalProperties from the database
+    post:
+      summary: Add New Rental Property
+      operationId: post-rental_property
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalProperty'
+        '400':
+          description: Bad Request
+      description: Add a new Rental Property to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                unit_number:
+                  type: string
+                street_number:
+                  type: integer
+                street_name:
+                  type: string
+                city:
+                  type: string
+                postal_code:
+                  type: string
+                asking_price:
+                  type: integer
+                listing_date:
+                  type: string
+                strata_cost_per_month:
+                  type: integer
+                parking:
+                  type: string
+                year_built:
+                  type: integer
+                sq_feet:
+                  type: integer
+                bedrooms:
+                  type: integer
+                bathrooms:
+                  type: number
+                neighbourhood:
+                  type: string
+                garage:
+                  type: string
+                yard:
+                  type: integer
+                landlord_email:
+                  type: string
+              required:
+                - street_number
+                - street_name
+                - city
+                - postal_code
+                - asking_price
+                - listing_date
+                - year_built
+                - sq_feet
+                - bedrooms
+                - bathrooms
+                - landlord_email
+            examples:
+              Adding A New Rental Property:
+                value:
+                  unit_number: '3'
+                  street_number: 100
+                  street_name: Kovitz Lane
+                  city: Edmonton
+                  postal_code: T3B6G6
+                  asking_price: 300000
+                  listing_date: '2022-04-26'
+                  parking: no parking on street
+                  year_built: 1990
+                  sq_feet: 3000
+                  bedrooms: 3
+                  bathrooms: 2
+                  neighbourhood: West Side
+                  garage: One Car
+                  yard: 300
+                  landlord_email: landlordguy@gmail.com
+  '/rental_property/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Specific RentalProperty
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalProperty'
+      operationId: get-rental-property-id
+      description: Get a specific RentalProperty using the RentalProperty's id as a key
+    patch:
+      summary: Update Specific RentalProperty
+      operationId: patch-rental-property-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalProperty'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                unit_number:
+                  type: string
+                street_number:
+                  type: integer
+                street_name:
+                  type: string
+                city:
+                  type: string
+                postal_code:
+                  type: string
+                asking_price:
+                  type: integer
+                listing_date:
+                  type: string
+                strata_cost_per_month:
+                  type: integer
+                parking:
+                  type: string
+                year_built:
+                  type: integer
+                sq_feet:
+                  type: integer
+                bedrooms:
+                  type: integer
+                bathrooms:
+                  type: number
+                neighbourhood:
+                  type: string
+                garage:
+                  type: string
+                yard:
+                  type: integer
+                seller_email:
+                  type: string
+            examples:
+              Updating address information:
+                value:
+                  unit_number: 7B
+                  street_number: 21
+                  street_name: Memorial Avenue
+        description: Patch Listing properties to update
+      description: Update certain information about the given RentalProperty
+  /requirement:
+    get:
+      summary: Gets all requirements info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Requirement'
+      operationId: get-requirement
+      description: Gets all the Requirements from the database
+    post:
+      summary: Add New Requirement
+      operationId: post-Requirement
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Requirement'
+        '400':
+          description: Bad Request
+      description: Add a new Requirement to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                year_built:
+                  type: integer
+                sq_feet:
+                  type: integer
+                bathrooms:
+                  type: number
+                bedrooms:
+                  type: integer
+                neighbourhood:
+                  type: string
+                garage:
+                  type: string
+                yard:
+                  type: integer
+            examples:
+              Adding a new Requirement:
+                value:
+                  year_built: 2004
+                  sq_feet: 4000
+                  bathrooms: 1.5
+                  bedrooms: 5
+                  neighbourhood: Forest Lawn
+                  garage: One car detached
+                  yard: 50
+    parameters: []
+  '/requirement/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Specific Requirement
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Requirement'
+      operationId: get-requirement-id
+      description: Get a specific Requirement using the Requirement's id as a key
+    patch:
+      summary: Update Specific Requirement
+      operationId: patch-requirement-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Requirement'
+      description: Update certain information about the given RentalProperty
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                year_built:
+                  type: integer
+                sq_feet:
+                  type: integer
+                bedrooms:
+                  type: integer
+                bathrooms:
+                  type: number
+                neighbourhood:
+                  type: string
+                garage:
+                  type: string
+                yard:
+                  type: integer
+            examples:
+              Changing yard size:
+                value:
+                  yard: 5000
+              Changing year built and square feet:
+                value:
+                  year_built: 2015
+                  sq_feet: 6900
 components:
   schemas:
     User:
@@ -667,7 +1537,7 @@ components:
       type: object
       examples:
         - id: 40
-          date: 03/24/2022
+          date: '2022-04-12'
           time: '15:30'
           location: Online
       description: An agent can make an appointment with another agent or with a client.
@@ -864,3 +1734,4 @@ components:
       required:
         - id
   securitySchemes: {}
+  requestBodies: {}

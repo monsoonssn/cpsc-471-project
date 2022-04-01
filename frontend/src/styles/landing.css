@@ -7,7 +7,7 @@
   position: fixed;
 }
 
-.landing_content {
+.landing-content {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@
   flex-grow: 1;
 }
 
-.landing_btns {
+.landing-btns {
   display: flex;
   gap: 1.15em;
 }

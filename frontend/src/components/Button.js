@@ -1,7 +1,7 @@
 import React from "react";
 
-const Button = ({ label }) => (
-  <button className="button button--bestia" type="button">
+const Button = ({ label, type }) => (
+  <button className="button button--bestia" type={type}>
     <div className="button__bg" />
     <span>{label}</span>
   </button>
