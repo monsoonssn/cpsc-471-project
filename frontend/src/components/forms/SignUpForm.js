@@ -1,5 +1,5 @@
 import React from "react";
-import ClientOrAgent from "./ClientOrAgent";
+import UserTypeStep from "./UserTypeStep";
 
 // This is the base of the multi step sign in form
 const SignUpForm = () => {
@@ -7,7 +7,7 @@ const SignUpForm = () => {
 
   return (
     <>
-      <ClientOrAgent />
+      <UserTypeStep />
     </>
   );
 };

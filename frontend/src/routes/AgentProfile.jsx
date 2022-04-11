@@ -1,11 +1,15 @@
 import React from "react";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
+import Typography from '@mui/material/Typography';
+
+
 
 const AgentProfile = () => (
   <div className="agentProfile">
     <div className="agentProfile_content">
       <h1>Your Profile</h1>
+      <Typography>Name: AJohn Smith</Typography>
       <p>Name: AJohn Smith</p>
       <p>Phone Number: (555) 555 - 5555</p>
       <p>Email: john.smith@ucalgary.ca</p>
@@ -19,5 +23,7 @@ const AgentProfile = () => (
     </div>
   </div>
 );
+
+
 
 export default AgentProfile;

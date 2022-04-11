@@ -1,39 +1,50 @@
+import { Button } from "@mui/material";
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Field, Form } from "formik";
-import { TextField, Button, Card } from "@mui/material";
+import * as yup from "yup";
+import { MaterialTextField } from "../MaterialFormik";
+
+const loginSchema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
 
 const LoginForm = () => (
   // <Card>
-    <Formik
-      initialValues={{
-        email: "",
-        password: "",
-      }}
-      onSubmit={(data, { setSubmitting }) => {
-        setSubmitting(true);
-        console.log(data);
-        setSubmitting(false);
-      }}
-    >
-      {({ values, isSubmitting, handleChange, handleBlur, handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
-          <div className="login-group">
-            <Field name="email" type="input" label="Email" as={TextField} />
-            <Field
+  <Formik
+    initialValues={{
+      email: "",
+      password: "",
+    }}
+    onSubmit={(data, { setSubmitting }) => {
+      setSubmitting(true);
+      console.log(data);
+      setSubmitting(false);
+    }}
+    validationSchema={loginSchema}
+  >
+    {({ values, isSubmitting }) => (
+      <Form>
+        <div className="login-group">
+          <div className="login-email">
+            <MaterialTextField name="email" label="Email" />
+          </div>
+          <div className="login-password">
+            <MaterialTextField
               name="password"
               type="password"
               label="Password"
-              as={TextField}
             />
           </div>
-          <Button disabled={isSubmitting} type="submit">
-            Login
-          </Button>
-          {/* Uncomment below to see object rep of values */}
-          {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
-        </Form>
-      )}
-    </Formik>
+        </div>
+        <Button disabled={isSubmitting} type="submit">
+          Login
+        </Button>
+        {/* Uncomment below to see object rep of values */}
+        <pre>{JSON.stringify(values, null, 2)}</pre>
+      </Form>
+    )}
+  </Formik>
   // {/* </Card> */}
 );
 

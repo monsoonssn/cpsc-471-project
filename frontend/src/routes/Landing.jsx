@@ -1,16 +1,14 @@
-import React from "react";
-import Footer from "../components/Footer";
-// import Button from "../components/Button";
-// import Button from "antd/lib/button";
+import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import React from "react";
 import { Link } from "react-router-dom";
-// import "antd/dist/antd.css";
+import Footer from "../components/Footer";
 import "../styles/landing.css";
 
 const Landing = () => (
   <div className="landing">
     <div className="landing-content">
-      <h1>Real Estate App</h1>
+      <Typography variant="h1">Real Estate App</Typography>
       <div className="landing-btns">
         <Link to="/signup">
           <Button variant="contained">Sign up</Button>

@@ -1,9 +1,6 @@
-// import logo from './logo.svg';
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./App.css";
-// import About from "./routes/about";
-// import Landing from "./routes/landing";
 
 const App = () => (
   <div className="app">
@@ -62,6 +59,7 @@ const NavigationAgent = () => (
     </ul>
   </nav>
 );
+
 const NavigationClient = () => (
   <nav>
     <ul>

@@ -1,7 +1,5 @@
 import React from "react";
-import Button from "../components/Button";
 import ClientPreview from "../components/ClientPreview";
-import { Link } from "react-router-dom";
 
 const AgentClients = () => (
   <div className="agent-clients">
