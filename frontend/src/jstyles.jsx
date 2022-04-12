@@ -1,17 +1,17 @@
 
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-      backgroiundColor: theme.palette.background.paper, 
+      backgroundColor: theme.palette.background.paper, 
       padding: theme.spacing(8, 0, 6)
     },
     icon: {
         marginRight: '20px'
     },
     buttons: {
-        margintTop: '40px'
+        marginTop: '40px'
     },
     cardGrid: {
       padding: '20pxx 0'
@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
     card: {
       height: '100%',
       display: 'flex',
-      felxDirection: 'column'
+      flexDirection: 'column'
     },
     cardContent: {
-      flewGrow: 1
+      flexGrow: 1
     },
     footer: {
-      backgroundColor: theme.palette.background.papaer, padding: '50px 0'
+      backgroundColor: theme.palette.background.paper, padding: '50px 0'
     }
   }));
 
