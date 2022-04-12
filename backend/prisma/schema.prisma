@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model a_a_appointments {
+  appointment_id                      Int         @default(autoincrement())
+  a_id1                               Int
+  a_id2                               Int
+  agent_a_a_appointments_a_id1Toagent agent       @relation("a_a_appointments_a_id1Toagent", fields: [a_id1], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  agent_a_a_appointments_a_id2Toagent agent       @relation("a_a_appointments_a_id2Toagent", fields: [a_id2], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  appointment                         appointment @relation(fields: [appointment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([appointment_id, a_id1, a_id2])
+}
+
+model a_c_appointments {
+  appointment_id Int         @default(autoincrement())
+  a_id           Int
+  c_id           Int
+  agent          agent       @relation(fields: [a_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  appointment    appointment @relation(fields: [appointment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  client         client      @relation(fields: [c_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([appointment_id, a_id, c_id])
+}
+
+model agent {
+  email                                          String             @db.VarChar
+  fname                                          String             @db.VarChar
+  lname                                          String             @db.VarChar
+  phone_num                                      String?            @db.VarChar
+  city                                           String             @db.VarChar
+  id                                             Int                @id @default(autoincrement())
+  a_a_appointments_a_a_appointments_a_id1Toagent a_a_appointments[] @relation("a_a_appointments_a_id1Toagent")
+  a_a_appointments_a_a_appointments_a_id2Toagent a_a_appointments[] @relation("a_a_appointments_a_id2Toagent")
+  a_c_appointments                               a_c_appointments[]
+}
+
+model appointment {
+  id               Int                @id @default(autoincrement())
+  timestamp        DateTime           @db.Timestamp(6)
+  location         String             @db.VarChar
+  a_a_appointments a_a_appointments[]
+  a_c_appointments a_c_appointments[]
+}
+
+model b_l_interest {
+  buyer_id   Int
+  listing_id Int
+  buyer      buyer   @relation(fields: [buyer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  listing    listing @relation(fields: [listing_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([buyer_id, listing_id])
+}
+
+model buyer {
+  budget         Int
+  type           String         @db.VarChar
+  id             Int            @id
+  requirement_id Int?
+  client         client         @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  requirement    requirement?   @relation(fields: [requirement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  b_l_interest   b_l_interest[]
+}
+
+model client {
+  email            String             @db.VarChar
+  fname            String             @db.VarChar
+  lname            String             @db.VarChar
+  phone_num        String?            @db.VarChar
+  agent_id         Int?
+  id               Int                @id @default(autoincrement())
+  a_c_appointments a_c_appointments[]
+  buyer            buyer?
+  contact          contact[]
+  landlord         landlord?
+  renter           renter?
+  seller           seller?
+}
+
+model contact {
+  email        String  @db.VarChar
+  fname        String  @db.VarChar
+  lname        String  @db.VarChar
+  phone_num    String? @db.VarChar
+  relationship String  @db.VarChar
+  client_id    Int
+  id           Int     @id @default(autoincrement())
+  client       client  @relation(fields: [client_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model landlord {
+  id              Int               @id
+  client          client            @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rental_property rental_property[]
+}
+
+model listing {
+  id                    Int            @id @default(autoincrement())
+  street_number         Int?
+  unit_number           String?        @db.VarChar
+  street_name           String?        @db.VarChar
+  city                  String?        @db.VarChar
+  postal_code           String?        @db.VarChar
+  asking_price          Int?
+  listing_date          DateTime       @default(now()) @db.Date
+  strata_cost_per_month Int?
+  parking               String?        @db.VarChar
+  year_built            DateTime?      @db.Date
+  bedrooms              Int?
+  bathrooms             Decimal?       @db.Decimal
+  neighbourhood         String?        @db.VarChar
+  yard                  Int?
+  sq_feet               Int
+  seller_id             Int
+  seller                seller         @relation(fields: [seller_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  b_l_interest          b_l_interest[]
+}
+
+model r_p_interest {
+  property_id     BigInt
+  renter_id       Int
+  rental_property rental_property @relation(fields: [property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  renter          renter          @relation(fields: [renter_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([property_id, renter_id])
+}
+
+model rental_property {
+  id                    Int            @id @default(autoincrement())
+  street_number         Int?
+  unit_number           String?        @db.VarChar
+  street_name           String?        @db.VarChar
+  city                  String?        @db.VarChar
+  postal_code           String?        @db.VarChar
+  asking_price          Int?
+  listing_date          DateTime       @default(now()) @db.Date
+  strata_cost_per_month Int?
+  parking               String?        @db.VarChar
+  year_built            DateTime?      @db.Date
+  bedrooms              Int?
+  bathrooms             Decimal?       @db.Decimal
+  neighbourhood         String?        @db.VarChar
+  yard                  Int?
+  sq_feet               Int
+  landlord_id           Int
+  landlord              landlord       @relation(fields: [landlord_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  r_p_interest          r_p_interest[]
+}
+
+model renter {
+  type           String         @db.VarChar
+  requirement_id BigInt?
+  id             Int            @id
+  client         client         @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  requirement    requirement?   @relation(fields: [requirement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  r_p_interest   r_p_interest[]
+}
+
+model requirement {
+  id            Int       @id @default(autoincrement())
+  year_built    DateTime? @db.Date
+  sq_feet       Int?
+  bathrooms     Decimal?  @db.Decimal
+  bedrooms      Int?
+  neighbourhood String?   @db.VarChar
+  yard          Int?
+  buyer         buyer[]
+  renter        renter[]
+}
+
+model seller {
+  type    String    @db.VarChar
+  id      Int       @id
+  client  client    @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  listing listing[]
+}
