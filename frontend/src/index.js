@@ -9,8 +9,8 @@ import About from "./routes/About";
 import Signup from "./routes/Signup";
 import Landing from "./routes/Landing";
 import Login from "./routes/Login";
-import AgentProfile from "./routes/AgentProfile";
-import ClientProfile from "./routes/ClientProfile";
+import YourProfile from "./routes/YourProfile";
+import YourClientsProfiles from "./routes/YourClientsProfiles";
 import Listing from "./routes/Listing";
 import Requirements from "./routes/Requirements";
 import AgentClients from "./routes/AgentClients";
@@ -27,8 +27,8 @@ ReactDOM.render(
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/app" element={<App />}>
-        <Route path="agentProfile" element={<AgentProfile />} />
-        <Route path="clientProfile" element={<ClientProfile />} />
+        <Route path="yourProfile" element={<YourProfile />} />
+        <Route path="yourClientsProfiles" element={<YourClientsProfiles />} />
         <Route path="listing" element={<Listing />} />
         <Route path="requirements" element={<Requirements />} />
         <Route path="agentClients" element={<AgentClients />} />
