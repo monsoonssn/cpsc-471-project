@@ -5,7 +5,7 @@ const About = () => (
     <h2>About</h2>
     <p>
       Ipsum dolor dolorem consectetur est velit fugiat. Dolorem provident
-      corporis fuga saepe distinctio ipsam? Et quos harum excepturi dolorum
+      corporis fuga saepe distinctio ipsam? 
 
     </p>
   </div>
