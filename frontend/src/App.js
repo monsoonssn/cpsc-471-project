@@ -22,6 +22,8 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
 import useStyles from './jstyles.jsx';
+import PersonIcon from '@mui/icons-material/Person';
+
 
 
 const drawerWidth = 240;
@@ -59,21 +61,11 @@ const App = () => {
         <Toolbar />
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Profile', 'Clients', 'Listings/Rental Properties', 'Appointments'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 3 === 2 ? <HomeIcon /> :<PersonIcon /> }
+                
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

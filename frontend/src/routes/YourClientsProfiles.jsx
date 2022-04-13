@@ -57,6 +57,7 @@ const YourClientsProfiles = () => {
       <main>
         <div >
           {/* className={classes.container} */}
+         
           <Container maxWidth = "sm">
             <Typography variant="h2" align= "center" color ="textPrimary" gutterBottom>
               Client Profiles
@@ -65,10 +66,9 @@ const YourClientsProfiles = () => {
               Hello! Welcome to all your clients profiles.
             </Typography>
             <div >
-              {/* className={classes.buttons} */}
-              <Grid container spacing ={2} justify="center">
+              <Grid container spacing ={2} justify="center"> 
                 <Grid item>
-                  <Button variant = "outlined" color = "primary">
+                  <Button variant = "outlined" color = "primary" style={{marginTop: '40px' , marginBottom: '40px'}}>
                   Refine Search
                   </Button>
                 </Grid>
@@ -76,15 +76,20 @@ const YourClientsProfiles = () => {
             </div>
           </Container>
         </div>
-        <Container  maxWidth="md">
-          {/* className={classes.cardGrid} */}
+        <Container  maxWidth="md" style={{
+          padding: '20pxx 0'
+        }}>
           <Grid container spacing={4}>
             {cards.map(() => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
-              <Card >
-                {/* className={classes.card} */}
-                  <CardContent >
-                    {/* className={classes.cardContent} */}
+              <Card style={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+              }} >
+                  <CardContent style={{
+                    flexGrow: 1
+                  }}>
                     <Typography gutterBottom variant="h5">
                       John Cena
                     </Typography>
@@ -104,8 +109,7 @@ const YourClientsProfiles = () => {
         </Container>
 
       </main>
-      <footer >
-        {/* className={classes.footer} */}
+      <footer style ={{padding: '50px 0'}}>
         <Typography variant="h6" align= "center" gutterBottom>
           Footer
         </Typography>
