@@ -5,6 +5,9 @@
 - change appointment date and time stuff to `timestamp` in api spec
 - add id to client, its subclasses, and agent on api spec
 - add contact_id to api spec
+- get rid of city in agent from api spec
+- get rid of type of buyer/renter in api spec
+- cannot modify email on client and agents
 <!-- - make `agent_email` in `Client` nullable in the database and forward engineer -->
 - ask TA for permission to use Express instead of ASP.NET asap
 - add on change cascade to primary keys

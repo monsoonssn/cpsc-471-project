@@ -1,12 +1,24 @@
+import { Container, Paper, Typography } from "@mui/material";
 import React from "react";
-import "../styles/signup.css";
 import SignUpForm from "../components/forms/SignUpForm";
+import "../styles/signup.css";
 
-const Signup = () => (
-  <div className="signup-container back-shade br-15">
-    <h2 className="signup-title">Sign Up</h2>
-    <SignUpForm />
-  </div>
-);
+const elevation = 10;
+
+const Signup = () => {
+  return (
+    <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <Paper
+        elevation={elevation}
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+      >
+        <Typography component="h1" variant="h4">
+          Sign Up
+        </Typography>
+        <SignUpForm />
+      </Paper>
+    </Container>
+  );
+};
 
 export default Signup;
