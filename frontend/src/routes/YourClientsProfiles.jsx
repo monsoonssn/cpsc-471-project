@@ -67,11 +67,12 @@ const YourClientsProfiles = () => {
             <div >
               <Grid container spacing ={2} justify="center"> 
                 <Grid item xs = {12}>
-                  <Container >
                     <Button variant = "outlined" color = "primary" style={{marginTop: '40px' , marginBottom: '40px'}}>
                     Refine Search
                     </Button>
-                  </Container>
+                  <Button variant = "outlined" color = "primary" style={{marginTop: '40px' , marginBottom: '40px'}}>
+                    Add A Client
+                    </Button>
                 </Grid>
               </Grid>
             </div>
