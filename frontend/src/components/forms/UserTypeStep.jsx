@@ -19,7 +19,7 @@ const UserTypeStep = () => (
       return (
         <Form>
           <Typography>Are you a client or an agent?</Typography>
-          <div className="radio-group">
+          <div>
             <div>
               <MaterialRadio
                 type="radio"

@@ -254,6 +254,337 @@ app.put("/api/renter/:id", async (req, res) => {
   res.json(renter);
 });
 
+app.get("/api/landlord", async (_, res) => {
+  const landlords = await prisma.landlord.findMany();
+  res.json(landlords);
+});
+
+app.post("/api/landlord", async (req, res) => {
+  const { id } = req.body;
+  const landlord = await prisma.landlord
+    .create({
+      data: { id },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(landlord);
+});
+
+app.get("/api/contact", async (req, res) => {
+  const clientId = req.query.client_id;
+  let contacts;
+  if (clientId) {
+    contacts = await prisma.contact.findMany({
+      where: {
+        client_id: Number(clientId),
+      },
+    });
+  } else {
+    contacts = await prisma.contact.findMany();
+  }
+  res.json(contacts);
+});
+
+app.post("/api/contact", async (req, res) => {
+  const { id, client_id, email, fname, lname, phone_num, relationship } =
+    req.body;
+
+  const contact = await prisma.contact
+    .create({
+      data: {
+        id,
+        client_id,
+        email,
+        fname,
+        lname,
+        phone_num,
+        relationship,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(contact);
+});
+
+app.put("/api/contact/:id", async (req, res) => {
+  const { id } = req.params;
+  const { client_id, email, fname, lname, phone_num, relationship } = req.body;
+  const contact = await prisma.contact
+    .update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        client_id,
+        email,
+        fname,
+        lname,
+        phone_num,
+        relationship,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(contact);
+});
+
+app.get("/api/contact/:id", async (req, res) => {
+  const { id } = req.params;
+  const contact = await prisma.contact
+    .findOne({
+      where: {
+        id: Number(id),
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(contact);
+});
+
+app.get("/api/listing", async (_, res) => {
+  const listings = await prisma.listing.findMany();
+  res.json(listings);
+});
+
+app.post("/api/listing", async (req, res) => {
+  const {
+    street_number,
+    unit_number,
+    street_name,
+    city,
+    postal_code,
+    asking_price,
+    listing_date,
+    strata_cost_per_month,
+    parking,
+    year_built,
+    sq_feet,
+    bedrooms,
+    bathrooms,
+    neighbourhood,
+    yard,
+    seller_id,
+  } = req.body;
+  const listing = await prisma.listing
+    .create({
+      data: {
+        street_number,
+        unit_number,
+        street_name,
+        city,
+        postal_code,
+        asking_price,
+        listing_date,
+        strata_cost_per_month,
+        parking,
+        year_built,
+        sq_feet,
+        bedrooms,
+        bathrooms,
+        neighbourhood,
+        yard,
+        seller_id,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(listing);
+});
+
+app.put("/api/listing/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    street_number,
+    unit_number,
+    street_name,
+    city,
+    postal_code,
+    asking_price,
+    listing_date,
+    strata_cost_per_month,
+    parking,
+    year_built,
+    sq_feet,
+    bedrooms,
+    bathrooms,
+    neighbourhood,
+    yard,
+    seller_id,
+  } = req.body;
+  const listing = await prisma.listing
+    .update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        street_number,
+        unit_number,
+        street_name,
+        city,
+        postal_code,
+        asking_price,
+        listing_date,
+        strata_cost_per_month,
+        parking,
+        year_built,
+        sq_feet,
+        bedrooms,
+        bathrooms,
+        neighbourhood,
+        yard,
+        seller_id,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(listing);
+});
+
+app.get("/api/listing/:id", async (req, res) => {
+  const { id } = req.params;
+  const listing = await prisma.listing
+    .findOne({
+      where: {
+        id: Number(id),
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(listing);
+});
+
+app.get("/api/rental_property", async (_, res) => {
+  const rental_properties = await prisma.rental_property.findMany();
+  res.json(rental_properties);
+});
+
+app.post("/api/rental_property", async (req, res) => {
+  const {
+    street_number,
+    unit_number,
+    street_name,
+    city,
+    postal_code,
+    asking_price,
+    listing_date,
+    strata_cost_per_month,
+    parking,
+    year_built,
+    sq_feet,
+    bedrooms,
+    bathrooms,
+    neighbourhood,
+    yard,
+    landlord_id,
+  } = req.body;
+  const rental_property = await prisma.rental_property
+    .create({
+      data: {
+        street_number,
+        unit_number,
+        street_name,
+        city,
+        postal_code,
+        asking_price,
+        listing_date,
+        strata_cost_per_month,
+        parking,
+        year_built,
+        sq_feet,
+        bedrooms,
+        bathrooms,
+        neighbourhood,
+        yard,
+        landlord_id,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(rental_property);
+});
+
+app.put("/api/rental_property/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    street_number,
+    unit_number,
+    street_name,
+    city,
+    postal_code,
+    asking_price,
+    listing_date,
+    strata_cost_per_month,
+    parking,
+    year_built,
+    sq_feet,
+    bedrooms,
+    bathrooms,
+    neighbourhood,
+    yard,
+    landlord_id,
+  } = req.body;
+  const rental_property = await prisma.rental_property
+    .update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        street_number,
+        unit_number,
+        street_name,
+        city,
+        postal_code,
+        asking_price,
+        listing_date,
+        strata_cost_per_month,
+        parking,
+        year_built,
+        sq_feet,
+        bedrooms,
+        bathrooms,
+        neighbourhood,
+        yard,
+        landlord_id,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(rental_property);
+});
+
+app.get("/api/rental_property/:id", async (req, res) => {
+  const { id } = req.params;
+  const rental_property = await prisma.rental_property
+    .findOne({
+      where: {
+        id: Number(id),
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(rental_property);
+});
+
 const unknownEndpoint = (_, res) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
