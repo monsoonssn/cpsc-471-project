@@ -49,7 +49,6 @@ import CardActions from '@mui/material/CardActions';
 const cards = [1,2,3,4,5,6,7,8,9]
 
 const YourClientsProfiles = () => {
-  // const classes  = useStyles();
   return (
     
     <>
@@ -67,16 +66,18 @@ const YourClientsProfiles = () => {
             </Typography>
             <div >
               <Grid container spacing ={2} justify="center"> 
-                <Grid item>
-                  <Button variant = "outlined" color = "primary" style={{marginTop: '40px' , marginBottom: '40px'}}>
-                  Refine Search
-                  </Button>
+                <Grid item xs = {12}>
+                  <Container >
+                    <Button variant = "outlined" color = "primary" style={{marginTop: '40px' , marginBottom: '40px'}}>
+                    Refine Search
+                    </Button>
+                  </Container>
                 </Grid>
               </Grid>
             </div>
           </Container>
         </div>
-        <Container  maxWidth="md" style={{
+        <Container  maxWidth="xl" style={{
           padding: '20pxx 0'
         }}>
           <Grid container spacing={4}>
@@ -109,14 +110,14 @@ const YourClientsProfiles = () => {
         </Container>
 
       </main>
-      <footer style ={{padding: '50px 0'}}>
+      {/* <footer style ={{padding: '50px 0'}}>
         <Typography variant="h6" align= "center" gutterBottom>
           Footer
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSeconday">
           Something here to give the footer a purpose!
         </Typography>
-      </footer>
+      </footer> */}
     </>
   );
 }

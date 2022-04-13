@@ -23,68 +23,58 @@ import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
 import useStyles from './jstyles.jsx';
 import PersonIcon from '@mui/icons-material/Person';
-
+import { AgentLinks } from "./Links";
 
 
 const drawerWidth = 240;
 
 const App = () => {
   // const classes = useStyles();
-  return(
-    
-  <div className="app">
-     <Box sx={{ display: 'flex'}}>
-      <CssBaseline />
-      <AppBar
-        position='fixed'
-        sx={{width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          {/* <HomeIcon className={classes.icon}/> */}
-          <Typography variant ='h6' noWrap component="div">
-            Real Estate Database
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer 
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+  return (
+
+    <div className="app">
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar
+          position='fixed'
+          sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+        >
+          <Toolbar>
+            {/* <HomeIcon className={classes.icon}/> */}
+            <Typography variant='h6' noWrap component="div">
+              Real Estate Database
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-      }}
-      variant="permanent"
-      anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {['Profile', 'Clients', 'Listings/Rental Properties', 'Appointments'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 3 === 2 ? <HomeIcon /> :<PersonIcon /> }
-                
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-      >
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <Toolbar />
+          <Divider />
+          <AgentLinks />
+        </Drawer>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        >
 
-        <Toolbar />
-        <Outlet />
-      </Box>
+          <Toolbar />
+          <Outlet />
+        </Box>
 
       </Box>
-  </div>
+    </div>
   );
-  }
+}
 
 // const Navigation = () => (
 //   <nav>
@@ -104,7 +94,7 @@ const App = () => {
 // );
 
 // const NavigationAgent = () => (
-  
+
 //   <nav>
 //     <ul>
 //       <li>

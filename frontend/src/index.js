@@ -6,6 +6,7 @@ import "./index.css";
 // import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import About from "./routes/About";
+import Appointment from "./routes/Appointment";
 import Signup from "./routes/Signup";
 import Landing from "./routes/Landing";
 import Login from "./routes/Login";
@@ -33,6 +34,7 @@ ReactDOM.render(
         <Route path="requirements" element={<Requirements />} />
         <Route path="agentClients" element={<AgentClients />} />
         <Route path="agentListings" element={<AgentListings />} />
+        <Route path="appointment" element={<Appointment />} />
 
       </Route>
       <Route

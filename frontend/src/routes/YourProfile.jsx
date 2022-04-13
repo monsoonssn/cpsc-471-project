@@ -42,26 +42,13 @@ import CardActions from '@mui/material/CardActions';
 //   </div>
 // );
 
-
-
-
-
 const cards = [1]
-const drawerWidth = 240;
 
 const YourProfile = () => {
   //const classes = useStyles();
   return (
     <>
       <CssBaseline />
-      {/*  >
-        <Toolbar>
-        <HomeIcon className={classes.icon}/>
-          <Typography variant ='h6'>
-            Real Estate Database
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <main>
         <div > 
           {/* className={classes.container} */}
@@ -74,24 +61,34 @@ const YourProfile = () => {
             </Typography>
           </Container>
         </div>
-        <Container maxWidth="md"> 
-        {/* className={classes.cardGrid} */}
+
+        <Container maxWidth="xl" style={{
+          padding: '20pxx 0'}}> 
           <Grid container spacing={4}>
             {cards.map(() => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
-              <Card > 
-                {/* className={classes.card} */}
-                  <CardContent > 
-                    {/* className={classes.cardContent} */}
+              <Card style={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+              }}> 
+                  <CardContent style={{
+                    flexGrow: 1
+                  }} > 
                     <Typography gutterBottom variant="h5">
-                      John Cena
+                      Name: John Cena
                     </Typography>
                     <Typography>
-                      This section will display a summary of John Cena
+                      Phone: 555 555 5555
+                    </Typography>
+                    <Typography>                      
+                      Email: john.cena@live.com
+                    </Typography>
+                    <Typography>
+                      City: Calgary
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary"> View</Button>
                     <Button size="small" color="primary"> Edit</Button>
                   </CardActions>
               </Card>
@@ -101,15 +98,14 @@ const YourProfile = () => {
 
         </Container> 
       </main>
-      <footer > 
-{/* className={classes.footer} */}
+      {/* <footer style ={{padding: '50px 0'}} > 
         <Typography variant="h6" align= "center" gutterBottom>
           Footer
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSeconday">
           Something here to give the footer a purpose!
         </Typography>
-      </footer>
+      </footer> */}
 
     </>
   );
