@@ -123,12 +123,12 @@ model listing {
 }
 
 model r_p_interest {
-  property_id     BigInt
   renter_id       Int
+  property_id     Int
   rental_property rental_property @relation(fields: [property_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   renter          renter          @relation(fields: [renter_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([property_id, renter_id])
+  @@id([renter_id, property_id])
 }
 
 model rental_property {
@@ -155,8 +155,8 @@ model rental_property {
 
 model renter {
   type           String         @db.VarChar
-  requirement_id BigInt?
   id             Int            @id
+  requirement_id Int?
   client         client         @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   requirement    requirement?   @relation(fields: [requirement_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   r_p_interest   r_p_interest[]
