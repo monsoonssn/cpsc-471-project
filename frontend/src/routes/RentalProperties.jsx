@@ -1,21 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { Link, Outlet } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import HomeIcon from "@mui/icons-material/Home";
-import useStyles from "../jstyles.jsx";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -24,8 +10,6 @@ import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import {
   MaterialButton,
-  MaterialCheckbox,
-  MaterialRadio,
   MaterialTextField,
 } from "../components/MaterialFormik";
 import { Form, Formik } from "formik";
@@ -35,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import RentalPropertyCard from "../components/RentalPropertyCard"
 
 const BASE_URL = "http://localhost:3001";
 
@@ -164,7 +149,8 @@ const RentalProperties = () => {
           <Grid container spacing={4}>
             {rentalProperties.map(rp => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
-                <Card
+                <RentalPropertyCard rental_property = {rentalProperties} />
+                {/* <Card
                   style={{
                     height: "100%",
                     display: "flex",
@@ -193,7 +179,7 @@ const RentalProperties = () => {
                       Edit
                     </Button>
                   </CardActions>
-                </Card>
+                </Card> */}
               </Grid>
             ))}
           </Grid>
