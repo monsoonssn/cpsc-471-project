@@ -58,7 +58,7 @@ model b_l_interest {
 }
 
 model buyer {
-  budget         Int
+  budget         Int?
   id             Int            @id
   requirement_id Int?
   client         client         @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -172,7 +172,7 @@ model requirement {
 }
 
 model seller {
-  type    String    @db.VarChar
+  type    String?   @db.VarChar
   id      Int       @id
   client  client    @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   listing listing[]

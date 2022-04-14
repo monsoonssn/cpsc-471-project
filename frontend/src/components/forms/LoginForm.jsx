@@ -1,24 +1,46 @@
-import { Button } from "@mui/material";
+import { RadioGroup, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import React from "react";
 import * as yup from "yup";
-import { MaterialTextField } from "../MaterialFormik";
+import axios from "axios";
+import {
+  MaterialButton,
+  MaterialRadio,
+  MaterialTextField,
+} from "../MaterialFormik";
+
+const BASE_URL = process.env.BASE_URL;
 
 const loginSchema = yup.object({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  client: yup.string().required(),
 });
 
 const LoginForm = () => (
-  // <Card>
   <Formik
     initialValues={{
       email: "",
-      password: "",
+      userType: "client",
     }}
-    onSubmit={(data, { setSubmitting }) => {
+    onSubmit={(values, { setSubmitting }) => {
       setSubmitting(true);
-      console.log(data);
+      if (values.userType === "client") {
+        axios
+          .get(`${BASE_URL}/api/client?client_email=${values.email}`)
+          .then(res => {
+            console.log(res.data);
+            const client = res.data;
+            // localStorage.setItem("client", JSON.stringify(client));
+          });
+      } else {
+        axios
+          .get(`${BASE_URL}/api/agent?agent_email=${values.email}`)
+          .then(res => {
+            console.log(res.data);
+            const agent = res.data;
+            // localStorage.setItem("agent", JSON.stringify(agent));
+          });
+      }
       setSubmitting(false);
     }}
     validationSchema={loginSchema}
@@ -26,26 +48,28 @@ const LoginForm = () => (
     {({ values, isSubmitting }) => (
       <Form>
         <div className="login-group">
+          <Typography sx={{ mt: "10px" }}>
+            Are you a client or an agent?
+          </Typography>
+          <RadioGroup defaultValue="client">
+            <MaterialRadio name="userType" value="client" label="Client" />
+            <MaterialRadio name="userType" value="agent" label="Agent" />
+          </RadioGroup>
           <div className="login-email">
             <MaterialTextField name="email" label="Email" />
           </div>
-          <div className="login-password">
-            <MaterialTextField
-              name="password"
-              type="password"
-              label="Password"
-            />
-          </div>
         </div>
-        <Button disabled={isSubmitting} type="submit">
-          Login
-        </Button>
-        {/* Uncomment below to see object rep of values */}
-        <pre>{JSON.stringify(values, null, 2)}</pre>
+        <MaterialButton
+          variant="contained"
+          fullWidth
+          sx={{ mt: 3, mb: 2 }}
+          disabled={isSubmitting}
+        >
+          Log in
+        </MaterialButton>
       </Form>
     )}
   </Formik>
-  // {/* </Card> */}
 );
 
 export default LoginForm;

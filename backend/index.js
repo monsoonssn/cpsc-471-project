@@ -90,8 +90,18 @@ app.get("/api/client/:id", async (req, res) => {
   res.json(client);
 });
 
-app.get("/api/agent", async (_, res) => {
-  const agents = await prisma.agent.findMany();
+app.get("/api/agent", async (req, res) => {
+  const agentEmailQuery = req.query.agent_email;
+  let agents;
+  if (agentEmailQuery) {
+    agents = await prisma.agent.findUnique({
+      where: {
+        email: agentEmailQuery,
+      },
+    });
+  } else {
+    agents = await prisma.agent.findMany();
+  }
   res.json(agents);
 });
 
