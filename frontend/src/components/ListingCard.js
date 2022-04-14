@@ -76,7 +76,7 @@ const ListingCard = ({ listing }) => {
             >
               <Typography gutterBottom variant="h5">
                 {listing.street_number}
-                {listing.unit_number} {listing.street_name} {listing.city}
+                {listing.unit_number} {listing.street_name} {listing.city} {listing.postal_code}
               </Typography>
               {/* <Typography gutterBottom variant="h5">
                 {client.fname} {client.lname}
@@ -89,7 +89,7 @@ const ListingCard = ({ listing }) => {
                 } else {
                   return (
                     <>
-                      <Typography variant="h6">Listings:</Typography>
+                      {/* <Typography variant="h6">Listings:</Typography> */}
                       {listings.map(listing => (
                         <Listing listing={listing} key={listing.id} />
                       ))}
