@@ -14,8 +14,7 @@ import YourProfile from "./routes/YourProfile";
 import YourClientsProfiles from "./routes/YourClientsProfiles";
 import Listing from "./routes/Listing";
 import Requirements from "./routes/Requirements";
-import AgentClients from "./routes/AgentClients";
-import AgentListings from "./routes/AgentListings";
+import RentalProperties from "./routes/RentalProperties"
 
 const rootElement = document.getElementById("root");
 
@@ -30,11 +29,10 @@ ReactDOM.render(
       <Route path="/app" element={<App />}>
         <Route path="yourProfile" element={<YourProfile />} />
         <Route path="yourClientsProfiles" element={<YourClientsProfiles />} />
-        <Route path="listing" element={<Listing />} />
         <Route path="requirements" element={<Requirements />} />
-        <Route path="agentClients" element={<AgentClients />} />
-        <Route path="agentListings" element={<AgentListings />} />
+        <Route path="Listing" element={<Listing />} />
         <Route path="appointment" element={<Appointment />} />
+        <Route path="rentalProperties" element={<RentalProperties />} />
 
       </Route>
       <Route

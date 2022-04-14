@@ -1,31 +1,134 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Button from "../components/Button";
+import React, { useEffect } from "react";
+import axios from "axios";
+import { Link, Outlet } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from "@mui/icons-material/Home";
+import useStyles from "../jstyles.jsx";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import CardActions from "@mui/material/CardActions";
 
-const RentalProperties = () => (
-  <div className="RentalProperties">
-    <h2>Your RentalProperties</h2>
-    <div className="butn-RentalProperties">
+const BASE_URL = "http://localhost:3001";
 
-      <p>Number Of Bedrooms: 3</p>
-      <p>Number Of Bathrooms: 2</p>
-      <p>Yard Size: 1000 sqft</p>
-      <p>Neighbourhood: Summer Bank</p>
-      <p>Asking Price: $200000 </p>
-      <p>Garage Size: 1 Car Garage</p>
-      <p>Address: 20 Brisebois Dr, Alberta, T3G 1SL</p>
-      {/* {Address = `${street_num} ${street_name}, ${city}, ${province}, ${postal_code}`} */}
-      <p>Year Built: 2008</p>
-      <p>Total Sq Feet: 5000 sqft</p>
-      <p>RentalProperties Date: 10/04/2021</p>
-      <p></p>
-      <Link to="/editRentalProperties">
-        <Button label="Edit" />
-      </Link>
+const RentalProperties = () => {
+  const [rentalProperties, setRentalProperties] = React.useState([]);
 
+  const getRentalProperties = () => {
+    console.log("getting rental properties...");
+    axios.get(`${BASE_URL}/api/rental_property`).then(res => {
+      setRentalProperties(res.data);
+      console.log("promise fulfilled");
+    });
+  };
 
-    </div>
-  </div>
-);
+  useEffect(getRentalProperties, []);
+  return (
+    <>
+      <CssBaseline />
+      <main>
+        <div>
+          {/* className={classes.container} */}
+
+          <Container maxWidth="sm">
+            <Typography
+              variant="h2"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              Rental Properties
+            </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              color="textSecondary"
+              paragraph
+            >
+              Hello! Welcome to all of your rental properties.
+            </Typography>
+            <div>
+              <Grid container spacing={2} justify="center">
+                <Grid item xs={12}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ marginTop: "40px", marginBottom: "40px" }}
+                  >
+                    Refine Search
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ marginTop: "40px", marginBottom: "40px" }}
+                  >
+                    Add A Rental Property
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </Container>
+        </div>
+        <Container
+          maxWidth="xl"
+          style={{
+            padding: "20px 0",
+          }}
+        >
+          <Grid container spacing={4}>
+            {rentalProperties.map(rp => (
+              <Grid item key={Card} xs={12} sm={6} md={4}>
+                <Card
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardContent
+                    style={{
+                      flexGrow: 1,
+                    }}
+                  >
+                    <Typography gutterBottom variant="h5">
+                      {rp.street_number}{rp.unit_number} {rp.street_name} {rp.city}
+                    </Typography>
+                    <Typography>Bedrooms: {rp.bedrooms}</Typography>
+                    <Typography>Bathrooms: {rp.bathrooms}</Typography>
+                    <Typography>Price: ${rp.asking_price} Per Month</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      {" "}
+                      View
+                    </Button>
+                    <Button size="small" color="primary">
+                      {" "}
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </main>
+    </>
+  );
+};
 
 export default RentalProperties;

@@ -66,7 +66,7 @@ export const MaterialButton = ({ children, ...props }) => {
 
   const configButton = {
     ...props,
-    onclick: handleSubmit,
+    onClick: handleSubmit,
   };
   return <Button {...configButton}>{children}</Button>;
 };

@@ -1,20 +1,29 @@
 import prismaPkg from "@prisma/client";
 import express from "express";
+import cors from "cors";
 const { PrismaClient } = prismaPkg;
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const prisma = new PrismaClient();
 
 app.get("/api/client", async (req, res) => {
   const agentIdQuery = req.query.agent_id;
+  const clientEmailQuery = req.query.client_email;
   let clients;
 
   if (agentIdQuery) {
     clients = await prisma.client.findMany({
       where: {
         agent_id: Number(agentIdQuery),
+      },
+    });
+  } else if (clientEmailQuery) {
+    clients = await prisma.client.findUnique({
+      where: {
+        email: clientEmailQuery,
       },
     });
   } else {
@@ -66,10 +75,10 @@ app.put("/api/client/:id", async (req, res) => {
   res.json(client);
 });
 
-app.get("api/client/:id", async (req, res) => {
+app.get("/api/client/:id", async (req, res) => {
   const { id } = req.params;
   const client = await prisma.client
-    .findOne({
+    .findUnique({
       where: {
         id: Number(id),
       },
@@ -173,7 +182,20 @@ app.put("/api/buyer/:id", async (req, res) => {
 });
 
 app.get("/api/seller", async (_, res) => {
-  const sellers = await prisma.seller.findMany();
+  const sellers = await prisma.seller.findMany({
+    include: {
+      client: {
+        select: {
+          id: false,
+          email: true,
+          fname: true,
+          lname: true,
+          phone_num: true,
+          agent_id: true,
+        },
+      },
+    },
+  });
   res.json(sellers);
 });
 
@@ -203,6 +225,33 @@ app.put("/api/seller/:id", async (req, res) => {
       },
       data: {
         type,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(seller);
+});
+
+app.get("/api/seller/:id", async (req, res) => {
+  const { id } = req.params;
+  const seller = await prisma.seller
+    .findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        client: {
+          select: {
+            id: false,
+            email: true,
+            fname: true,
+            lname: true,
+            phone_num: true,
+            agent_id: true,
+          },
+        },
       },
     })
     .catch(_ => {
@@ -255,7 +304,20 @@ app.put("/api/renter/:id", async (req, res) => {
 });
 
 app.get("/api/landlord", async (_, res) => {
-  const landlords = await prisma.landlord.findMany();
+  const landlords = await prisma.landlord.findMany({
+    include: {
+      client: {
+        select: {
+          id: false,
+          email: true,
+          fname: true,
+          lname: true,
+          phone_num: true,
+          agent_id: true,
+        },
+      },
+    },
+  });
   res.json(landlords);
 });
 
@@ -264,6 +326,33 @@ app.post("/api/landlord", async (req, res) => {
   const landlord = await prisma.landlord
     .create({
       data: { id },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(landlord);
+});
+
+app.get("/api/landlord/:id", async (req, res) => {
+  const { id } = req.params;
+  const landlord = await prisma.landlord
+    .findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        client: {
+          select: {
+            id: false,
+            email: true,
+            fname: true,
+            lname: true,
+            phone_num: true,
+            agent_id: true,
+          },
+        },
+      },
     })
     .catch(_ => {
       res.sendStatus(400);
@@ -585,7 +674,8 @@ app.get("/api/rental_property/:id", async (req, res) => {
   res.json(rental_property);
 });
 
-const unknownEndpoint = (_, res) => {
+const unknownEndpoint = (req, res) => {
+  console.dir(req.params);
   res.status(404).send({ error: "unknown endpoint" });
 };
 

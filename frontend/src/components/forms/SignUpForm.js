@@ -1,4 +1,5 @@
 import { FormGroup, RadioGroup, Typography } from "@mui/material";
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import * as yup from "yup";
@@ -8,6 +9,9 @@ import {
   MaterialRadio,
   MaterialTextField,
 } from "../MaterialFormik";
+import { htmlEncode } from "../../utils/htmlEncode";
+
+const BASE_URL = "localhost:3001";
 
 const INIT_VALUES = {
   userType: "client",
@@ -15,7 +19,6 @@ const INIT_VALUES = {
   lastName: "",
   email: "",
   phoneNumber: "",
-  password: "",
   buyer: false,
   seller: false,
   renter: false,
@@ -28,16 +31,10 @@ const SIGNUP_VALIDATION = yup.object({
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   phoneNumber: yup.number().integer().typeError("Enter a valid phone number"),
-  // clientType: yup.array().required("Client type is required"),
   buyer: yup.boolean(),
   seller: yup.boolean(),
   renter: yup.boolean(),
   landlord: yup.boolean(),
-  password: yup
-    .string()
-    .required("Password is required")
-    .min(8, "Password is too short - should be 8 chars minimum.")
-    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
 });
 
 SIGNUP_VALIDATION.test("clientCheckboxTest", null, values => {
@@ -70,6 +67,11 @@ const UserTypeStep = () => {
       onSubmit={async (values, { setSubmitting }) => {
         // await new Promise(r => setTimeout(r, 500));
         setSubmitting(true);
+        axios.get(`${BASE_URL}/api/client?client_email=${values.email}`).then(res => {
+          if (res) {
+            console.log(res);
+          }
+        });
         alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       }}
@@ -89,12 +91,6 @@ const UserTypeStep = () => {
             <MaterialTextField name="lastName" label="Last Name" required />
             <MaterialTextField name="phoneNumber" label="Phone Number" />
             <MaterialTextField name="email" label="Email" required />
-            <MaterialTextField
-              name="password"
-              label="Password"
-              type="password"
-              required
-            />
             {(() => {
               if (values.userType === "client") {
                 return (

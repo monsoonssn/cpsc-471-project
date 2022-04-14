@@ -60,13 +60,13 @@ export
               <ListItemText primary="Clients" />
             </ListItem>
           </Link>
-          <Link to = "/app/Listings">
-            <ListItem button key="Listings">
+          <Link to = "/app/Listing">
+            <ListItem button key="Listing">
               <ListItemIcon>
                 {<HomeIcon />}
 
               </ListItemIcon>
-              <ListItemText primary="Listings" />
+              <ListItemText primary="Listing" />
             </ListItem>
           </Link>
           <Link to = "/app/RentalProperties">
@@ -78,7 +78,7 @@ export
               <ListItemText primary="Rental Properties" />
             </ListItem>
           </Link>
-          
+
           <Link to = "/app/Appointment">
             <ListItem button key="Appointments">
               <ListItemIcon>
