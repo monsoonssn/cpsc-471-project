@@ -1,45 +1,23 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { Link, Outlet } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import HomeIcon from "@mui/icons-material/Home";
-import useStyles from "../jstyles.jsx";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import CardActions from "@mui/material/CardActions";
-import {
-  MaterialButton,
-  MaterialCheckbox,
-  MaterialRadio,
-  MaterialTextField,
-} from "../components/MaterialFormik";
+import Card from "@mui/material/Card";
+import Container from "@mui/material/Container";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
 import { Form, Formik } from "formik";
+import React, { useEffect } from "react";
 import {
   ADD_CLIENT_VALIDATION,
-  CLIENT_INIT_VALUES,
+  LISTING_INIT_VALUES,
 } from "../components/GeneralFormValidation.js";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import ListingCard from "../components/ListingCard.js";
-
+import {
+  MaterialButton,
+  MaterialTextField,
+} from "../components/MaterialFormik";
 
 const BASE_URL = "http://localhost:3001";
 
@@ -83,7 +61,7 @@ const Listing = () => {
               color="textSecondary"
               paragraph
             >
-              Hello! Welcome to all of your Listings.
+              Hello! Welcome to all listings.
             </Typography>
 
             <div>
@@ -101,24 +79,41 @@ const Listing = () => {
                     <DialogTitle>Add Listing</DialogTitle>
                     <DialogContent>
                       <Formik
-                        initialValues={CLIENT_INIT_VALUES}
+                        initialValues={LISTING_INIT_VALUES}
                         onSubmit={async (values, { setSubmitting }) => {
                           setSubmitting(true);
+                          const listing = {
+                            street_number: values.streetNumber,
+                            unit_number: values.unitNumber,
+                            street_name: values.streetName,
+                            city: values.city,
+                            postal_code: values.postalCode,
+                            listing_date: values.listingDate,
+                            asking_price: values.askingPrice,
+                            parking: values.parking,
+                            bedrooms: values.bedrooms,
+                            bathrooms: values.bathrooms,
+                            sq_feet: values.sqFeet,
+                            strate_cost_per_month: values.strataCostPerMonth,
+                            neighbourhood: values.neighbourhood,
+                            yard: values.yard,
+                            year_built: values.yearBuilt,
+                          };
+
                           axios
-                            .get(
-                              `${BASE_URL}/api/client? client_email=${values.email}`
-                            )
+                            .post(`http://${BASE_URL}/api/listing`, listing)
                             .then(res => {
-                              if (res) {
-                                console.log(res);
-                              }
+                              console.log("promise fulfilled");
+                              setListings(res.data);
+                              getListings();
+                              setOpen(false);
                             });
-                          alert(JSON.stringify(values, null, 2));
+
                           setSubmitting(false);
                         }}
                         validationSchema={ADD_CLIENT_VALIDATION}
                       >
-                        {({ values }) => {
+                        {({ values, isSubmitting }) => {
                           return (
                             <Form>
                               <MaterialTextField
@@ -167,10 +162,6 @@ const Listing = () => {
                                 label="Number of Bathrooms"
                               />
                               <MaterialTextField
-                                name="streetName"
-                                label="Street Name"
-                              />
-                              <MaterialTextField
                                 name="neighbourhood"
                                 label="Neighbourhood"
                               />
@@ -183,11 +174,10 @@ const Listing = () => {
                                 label="Year Built"
                               />
                               <MaterialButton
-                                type="submit"
                                 variant="contained"
                                 fullWidth
                                 sx={{ mt: 3, mb: 2 }}
-                              // disabled={Formik.isSubmitting}
+                                disabled={isSubmitting}
                               >
                                 Submit
                               </MaterialButton>
@@ -197,14 +187,6 @@ const Listing = () => {
                       </Formik>
                     </DialogContent>
                   </Dialog>
-
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    style={{ marginTop: "40px", marginBottom: "40px" }}
-                  >
-                    Refine Search
-                  </Button>
                 </Grid>
               </Grid>
             </div>

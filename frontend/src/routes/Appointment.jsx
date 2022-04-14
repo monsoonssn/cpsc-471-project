@@ -65,17 +65,17 @@ const Appointment = () => {
     <>
       <CssBaseline />
       <main>
-        <div > 
-          
+        <div >
+
           <Container maxWidth = "sm">
             <Typography variant="h2" align= "center" color ="textPrimary" gutterBottom>
               Appointments
             </Typography>
             <Typography variant="h5" align= "center" color ="textSecondary" paragraph>
-              Hello! Welcome to the appointment section. Here you can view/create/edit appointmets!.
+              Hello! Welcome to the appointment section. Here you can view/create appointmets!.
             </Typography>
             <div >
-              <Grid container spacing ={2} justify="center"> 
+              <Grid container spacing ={2} justify="center">
                 <Grid item>
                   <Button variant = "outlined" color = "primary" style={{marginTop: '40px' , marginBottom: '40px'}}
                   onClick={handleClickOpen}>
@@ -106,7 +106,7 @@ const Appointment = () => {
                               <MaterialTextField name="Client Name or Agent name" label="Client Name or Agent name"  />
                               <MaterialTextField name="Location" label="Location" />
                               <MaterialTextField name="Date/Time" label="Date/Time"  />
-                              
+
                               <MaterialButton
                                 type="submit"
                                 variant="contained"
@@ -128,7 +128,7 @@ const Appointment = () => {
         </div>
 
         <Container maxWidth="xl" style={{
-          padding: '20pxx 0'}}> 
+          padding: '20pxx 0'}}>
           <Grid container spacing={4}>
             {cards.map(() => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
@@ -136,32 +136,29 @@ const Appointment = () => {
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column'
-              }}> 
+              }}>
                   <CardContent style={{
                     flexGrow: 1
-                  }} > 
+                  }} >
                     <Typography gutterBottom variant="h5">
                       Appointment Id: 45
                     </Typography>
                     <Typography>
                       With: Client Name or agent name
                     </Typography>
-                    <Typography>                      
+                    <Typography>
                       Email: john.cena@live.com
                     </Typography>
                     <Typography>
                       City: Calgary
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary"> Edit</Button>
-                  </CardActions>
               </Card>
             </Grid>
             ))}
           </Grid>
 
-        </Container> 
+        </Container>
       </main>
 
     </>

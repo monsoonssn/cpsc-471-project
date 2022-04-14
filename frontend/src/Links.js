@@ -99,16 +99,44 @@ export
   const ClientLinks = () => {
     return (
       <List>
-        {['Profile', 'Listings/Rental Properties', 'Appointments'].map((text, index) => (
-          <Link>
-            <ListItem button key={text}>
+        <Link to = "/app/yourProfile">
+            <ListItem button key="Profile">
               <ListItemIcon>
-                {index % 3 === 2 ? <HomeIcon /> : <PersonIcon />}
+                {<PersonIcon />}
 
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Profile" />
             </ListItem>
           </Link>
-        ))}
+          <Link to = "/app/Listing">
+            <ListItem button key="Listing">
+              <ListItemIcon>
+                {<HomeIcon />}
+
+              </ListItemIcon>
+              <ListItemText primary="Listing" />
+            </ListItem>
+          </Link>
+          <Link to = "/app/RentalProperties">
+            <ListItem button key="Rental Properties">
+              <ListItemIcon>
+                {<HomeIcon />}
+
+              </ListItemIcon>
+              <ListItemText primary="Rental Properties" />
+            </ListItem>
+          </Link>
+
+          <Link to = "/app/Appointment">
+            <ListItem button key="Appointments">
+              <ListItemIcon>
+                { <PersonIcon />}
+
+              </ListItemIcon>
+              <ListItemText primary="Appointments" />
+            </ListItem>
+          </Link>
+
+
       </List>)
   }

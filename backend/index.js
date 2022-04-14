@@ -34,7 +34,7 @@ app.get("/api/client", async (req, res) => {
 });
 
 app.post("/api/client", async (req, res) => {
-  const { email, fname, lname, phone_num, agent_email } = req.body;
+  const { email, fname, lname, phone_num, agent_id } = req.body;
   const client = await prisma.client
     .create({
       data: {
@@ -42,7 +42,7 @@ app.post("/api/client", async (req, res) => {
         fname,
         lname,
         phone_num,
-        agent_email,
+        agent_id,
       },
     })
     .catch(_ => {
@@ -761,7 +761,7 @@ app.put("/api/rental_property/:id", async (req, res) => {
 app.get("/api/rental_property/:id", async (req, res) => {
   const { id } = req.params;
   const rental_property = await prisma.rental_property
-    .findOne({
+    .findUnique({
       where: {
         id: Number(id),
       },
@@ -796,6 +796,11 @@ app.get("/api/requirement", async (req, res) => {
 });
 
 app.post("/api/requirement", async (req, res) => {});
+
+app.get("/api/appointment", async (req, res) => {
+  const appointments = await prisma.appointment.findMany();
+  res.json(appointments);
+});
 
 const unknownEndpoint = (req, res) => {
   console.dir(req.params);

@@ -28,16 +28,16 @@ const ListingCard = ({ listing }) => {
   const handleCloseAdd = () => {
     setOpenAdd(false);
   };
-  const getListings = () => {
-    console.log("getting listings..");
-    axios
-      .get(`http://${BASE_URL}/api/listing?listing_id=${listing.id}`)
-      .then(res => {
-        setListings(res.data);
-        console.log("promise fulfilled");
-      });
-  };
-  useEffect(getListings, []);
+  // const getListings = () => {
+  //   console.log("getting listings..");
+  //   axios
+  //     .get(`http://${BASE_URL}/api/listing?listing_id=${listing.id}`)
+  //     .then(res => {
+  //       setListings(res.data);
+  //       console.log("promise fulfilled");
+  //     });
+  // };
+  // useEffect(getListings, []);
 
   return (
     <Card
@@ -67,36 +67,49 @@ const ListingCard = ({ listing }) => {
           View
         </Button>
         <Dialog open={openAdd} onClose={handleCloseAdd}>
-          <DialogTitle>View Listings</DialogTitle>
+          <DialogTitle>View Listing</DialogTitle>
           <DialogContent>
             <CardContent
               style={{
                 flexGrow: 1,
               }}
             >
-              <Typography gutterBottom variant="h5">
-                {listing.street_number}
-                {listing.unit_number} {listing.street_name} {listing.city} {listing.postal_code}
+              <Typography>{listing.id}</Typography>
+              <Typography>
+                Listing Date: {listing.listing_date}
               </Typography>
-              {/* <Typography gutterBottom variant="h5">
-                {client.fname} {client.lname}
+              <Typography>
+                Total square footage:
+                {listing.sq_feet}
               </Typography>
-              <Typography>{client.email}</Typography>
-              <Typography>{client.phone_num}</Typography> */}
-              {(() => {
-                if (listing.length == 0) {
-                  return <Typography>No listing for this client.</Typography>;
-                } else {
-                  return (
-                    <>
-                      {/* <Typography variant="h6">Listings:</Typography> */}
-                      {listings.map(listing => (
-                        <Listing listing={listing} key={listing.id} />
-                      ))}
-                    </>
-                  );
-                }
-              })()}
+              <Typography>
+                {" "}
+                Address: {listing.street_number}{" "}
+                {listing.unit_number} {listing.street_name}
+                {listing.city} {listing.postal_code}
+              </Typography>
+              <Typography>
+                Asking price: {listing.asking_price}
+              </Typography>
+              <Typography>
+                Strata cost per month: {listing.strata_cost_per_month}
+              </Typography>
+              <Typography>
+                Parking Description: {listing.parking}
+              </Typography>
+              <Typography>
+                Number of bedrooms: {listing.bedrooms}
+              </Typography>
+              <Typography>
+                Number of bathrooms: {listing.bathrooms}
+              </Typography>
+              <Typography>
+                Neightbourhood: {listing.neighbourhood}
+              </Typography>
+              <Typography>Yard description: {listing.yard}</Typography>
+              <Typography>Year built: {listing.year_built}</Typography>
+
+
             </CardContent>
           </DialogContent>
         </Dialog>
@@ -105,35 +118,4 @@ const ListingCard = ({ listing }) => {
   );
 };
 
-const Listing = ({ listing }) => {
-  return (
-    <CardContent
-      style={{
-        flexGrow: 1,
-      }}
-    >
-      <Typography>Listing Date: {listing.listing_date}</Typography>
-      <Typography>
-        Total square footage:
-        {listing.sq_feet}
-      </Typography>
-      <Typography>
-        {" "}
-        Address: {listing.street_number} {listing.unit_number}{" "}
-        {listing.street_name}
-        {listing.city} {listing.postal_code}
-      </Typography>
-      <Typography>Asking price: {listing.asking_price}</Typography>
-      <Typography>
-        Strata cost per month: {listing.strata_cost_per_month}
-      </Typography>
-      <Typography>Parking Description: {listing.parking}</Typography>
-      <Typography>Number of bedrooms: {listing.bedrooms}</Typography>
-      <Typography>Number of bathrooms: {listing.bathrooms}</Typography>
-      <Typography>Neightbourhood: {listing.neighbourhood}</Typography>
-      <Typography>Yard description: {listing.yard}</Typography>
-      <Typography>Year built: {listing.year_built}</Typography>
-    </CardContent>
-  );
-};
 export default ListingCard;

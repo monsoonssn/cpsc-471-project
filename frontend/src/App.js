@@ -64,10 +64,10 @@ const App = () => {
           <Toolbar />
           <Divider />
           {(() => {
-            if (user && user.role === "agent") {
+            if (user && user.userType === "agent") {
               return <AgentLinks />;
             } else {
-              return <AgentLinks />;
+              return <ClientLinks />;
             }
           })()}
         </Drawer>
