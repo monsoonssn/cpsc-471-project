@@ -16,7 +16,7 @@ import {
   MaterialRadio,
   MaterialTextField,
 } from "../MaterialFormik";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = process.env.BASE_URL || "localhost:3001";
 
@@ -28,6 +28,7 @@ const loginSchema = yup.object({
 const LoginForm = () => {
   const [open, setOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClose = (_, reason) => {
     if (reason === "clickaway") {
@@ -37,7 +38,7 @@ const LoginForm = () => {
   };
 
   if (submitted) {
-    return <Navigate to="/app" />;
+    navigate(0);
   }
 
   return (
