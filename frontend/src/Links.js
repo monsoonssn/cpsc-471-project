@@ -66,7 +66,7 @@ export
                 {<HomeIcon />}
 
               </ListItemIcon>
-              <ListItemText primary="Listing" />
+              <ListItemText primary="Listings" />
             </ListItem>
           </Link>
           <Link to = "/app/RentalProperties">
