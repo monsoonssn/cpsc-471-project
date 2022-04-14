@@ -22,11 +22,34 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import {
+  MaterialButton,
+  MaterialCheckbox,
+  MaterialRadio,
+  MaterialTextField,
+} from "../components/MaterialFormik";
+import { Form, Formik } from "formik";
+import { ADD_CLIENT_VALIDATION, CLIENT_INIT_VALUES } from "../components/GeneralFormValidation.js";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 
 const BASE_URL = "http://localhost:3001";
 
 const Listing = () => {
   const [listings, setListings] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const getListings = () => {
     console.log("getting listings...");
@@ -67,15 +90,67 @@ const Listing = () => {
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
-                  >
-                    Refine Search
+                    onClick={handleClickOpen} >
+                    Add A Listing
                   </Button>
+                  <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Add Listing</DialogTitle>
+                    <DialogContent>
+                      <Formik
+                        initialValues={CLIENT_INIT_VALUES}
+                        onSubmit={async (values, { setSubmitting }) => {
+                          setSubmitting(true);
+                          axios.get(`${BASE_URL}/api/client? client_email=${values.email}`).then(res => {
+                            if (res) {
+                              console.log(res);
+                            }
+                          });
+                          alert(JSON.stringify(values, null, 2));
+                          setSubmitting(false);
+
+                        }}
+                        validationSchema={ADD_CLIENT_VALIDATION}
+                      >
+                        {({ values }) => {
+                          return (
+                            <Form>
+                              <MaterialTextField name="listingDate" label="Listing Date"  />
+                              <MaterialTextField name="sqFeet" label="Total Feet"  />
+                              <MaterialTextField name="streetNumber" label="Street Number" />
+                              <MaterialTextField name="unitNumber" label="Unit Number"  />
+                              <MaterialTextField name="streetName" label="Street Name"  />
+                              <MaterialTextField name="city" label="City"  />
+                              <MaterialTextField name="postalCode" label="Postal Code" />
+                              <MaterialTextField name="askingPrice" label="Asking Price"  />
+                              <MaterialTextField name="strataCostPerMonth" label="Strata Cost Per Month"  />
+                              <MaterialTextField name="parking" label="Parking"  />
+                              <MaterialTextField name="bedrooms" label="Number of Bedrooms" />
+                              <MaterialTextField name="bathrooms" label="Number of Bathrooms"  />
+                              <MaterialTextField name="streetName" label="Street Name"  />
+                              <MaterialTextField name="neighbourhood" label="Neighbourhood"  />
+                              <MaterialTextField name="yard" label="Yard Description" />
+                              <MaterialTextField name="yearBuilt" label="Year Built"  />
+                              <MaterialButton
+                                type="submit"
+                                variant="contained"
+                                fullWidth
+                                sx={{ mt: 3, mb: 2 }}
+                              // disabled={Formik.isSubmitting}
+                              >
+                                Submit
+                              </MaterialButton>
+                            </Form>);
+                        }}
+                      </Formik>
+                    </DialogContent>
+                  </Dialog>
+
                   <Button
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
                   >
-                    Add A Listing
+                    Refine Search
                   </Button>
                 </Grid>
               </Grid>
@@ -112,13 +187,10 @@ const Listing = () => {
                     <Typography>Asking Price: ${l.asking_price} </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary"
+                    >
                       {" "}
                       View
-                    </Button>
-                    <Button size="small" color="primary">
-                      {" "}
-                      Edit
                     </Button>
                   </CardActions>
                 </Card>

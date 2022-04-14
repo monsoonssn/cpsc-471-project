@@ -37,7 +37,7 @@ import {
 import { Form, Formik } from "formik";
 import { ADD_CLIENT_VALIDATION, CLIENT_INIT_VALUES } from "../components/GeneralFormValidation.js";
 
-
+import ClientCard from "../components/ClientCard.js";
 
 const BASE_URL = "http://localhost:3001";
 
@@ -45,14 +45,22 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const YourClientsProfiles = () => {
   const [clients, setClients] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [openView, setOpenView] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenView = () => {
+    setOpenView(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseView = () => {
+    setOpenView(false);
   };
+  const handleClickOpenAdd = () => {
+    setOpenAdd(true);
+  };
+  const handleCloseAdd = () => {
+    setOpenAdd(false);
+  };
+
   const getClients = () => {
     console.log("getting clients...");
     axios.get(`${BASE_URL}/api/client`).then(res => {
@@ -94,12 +102,11 @@ const YourClientsProfiles = () => {
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
-                    onClick={handleClickOpen} >
+                    onClick={handleClickOpenView} >
 
-                    Refine Search
+                    Add A Client
                   </Button>
-
-                  <Dialog open={open} onClose={handleClose}>
+                  <Dialog open={openView} onClose={handleCloseView}>
                     <DialogTitle>Add Client</DialogTitle>
                     <DialogContent>
                       <Formik
@@ -144,9 +151,9 @@ const YourClientsProfiles = () => {
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
-                    onClick={handleClickOpen}>
+                  >
 
-                    Add A Client
+                    Refine Search
                   </Button>
 
                 </Grid>
@@ -161,36 +168,10 @@ const YourClientsProfiles = () => {
           }}
         >
           <Grid container spacing={4}>
-            {clients.map((client, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <Card
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardContent
-                    style={{
-                      flexGrow: 1,
-                    }}
-                  >
-                    <Typography gutterBottom variant="h5">
-                      {client.fname} {client.lname}
-                    </Typography>
-                    <Typography>{client.email}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      {" "}
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      {" "}
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
+            {clients.map((client) => (
+              <Grid item key={client.id} xs={12} sm={6} md={4}>
+                <ClientCard client={client} />
+                
               </Grid>
             ))}
           </Grid>

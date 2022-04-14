@@ -19,7 +19,7 @@ import {
   MaterialTextField,
 } from "../MaterialFormik";
 
-const BASE_URL = "localhost:3001";
+const BASE_URL = process.env.BASE_URL || "localhost:3001";
 
 const INIT_VALUES = {
   userType: "client",
@@ -245,7 +245,7 @@ const SignUpForm = () => {
           </>
         }
       >
-        <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           A user with that email already exists!
         </Alert>
       </Snackbar>

@@ -22,13 +22,33 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import {
+  MaterialButton,
+  MaterialCheckbox,
+  MaterialRadio,
+  MaterialTextField,
+} from "../components/MaterialFormik";
+import { Form, Formik } from "formik";
+import { ADD_RENTAL_PROPERTY_VALIDATION, RENTAL_PROPERTY_INIT_VALUES } from "../components/GeneralFormValidation.js";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const BASE_URL = "http://localhost:3001";
 
 const RentalProperties = () => {
   const [rentalProperties, setRentalProperties] = React.useState([]);
+    const [open, setOpen] = React.useState(false);
 
-  const getRentalProperties = () => {
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
+    const getRentalProperties = () => {
     console.log("getting rental properties...");
     axios.get(`${BASE_URL}/api/rental_property`).then(res => {
       setRentalProperties(res.data);
@@ -68,15 +88,67 @@ const RentalProperties = () => {
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
+                    onClick={handleClickOpen}
                   >
-                    Refine Search
+                    Add A Rental Property
                   </Button>
+                  <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Add Rental Property</DialogTitle>
+                    <DialogContent>
+                      <Formik
+                        initialValues={RENTAL_PROPERTY_INIT_VALUES}
+                        onSubmit={async (values, { setSubmitting }) => {
+                          setSubmitting(true);
+                          axios.get(`${BASE_URL}/api/client? client_email=${values.email}`).then(res => {
+                            if (res) {
+                              console.log(res);
+                            }
+                          });
+                          alert(JSON.stringify(values, null, 2));
+                          setSubmitting(false);
+
+                        }}
+                        validationSchema={ADD_RENTAL_PROPERTY_VALIDATION}
+                      >
+                        {({ values }) => {
+                          return (
+                            <Form>
+                              <MaterialTextField name="listingDate" label="Listing Date" />
+                              <MaterialTextField name="sqFeet"
+                                label="Total Square Feet"  />
+                              <MaterialTextField name="streetNumber" label="Street Number" />
+                              <MaterialTextField name="unitNumber" label="Unit Number" />
+                              <MaterialTextField name="streetName" label="Street Name" />
+                              <MaterialTextField name="city" label="City"  />
+                              <MaterialTextField name="postalCode" label="Postal Code"  />
+                              <MaterialTextField name="askingPrice" label="Price Per Month" />
+                              <MaterialTextField name="parking" label="Parking" />
+                              <MaterialTextField name="bedrooms" label="Number of Bedrooms"  />
+                              <MaterialTextField name="bathrooms" label="Number of Bathrooms"  />
+                              <MaterialTextField name="neighbourhood" label="Neighbourhood Name"  />
+                              <MaterialTextField name="yard" label="Yard Description"  />
+                              <MaterialTextField name="yearBuilt" label="Year Built"  />
+                              <MaterialButton
+                                type="submit"
+                                variant="contained"
+                                fullWidth
+                                sx={{ mt: 3, mb: 2 }}
+                              // disabled={Formik.isSubmitting}
+                              >
+                                Submit
+                              </MaterialButton>
+                            </Form>);
+                        }}
+                      </Formik>
+                    </DialogContent>
+                  </Dialog>
+
                   <Button
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
                   >
-                    Add A Rental Property
+                    Refine Search
                   </Button>
                 </Grid>
               </Grid>

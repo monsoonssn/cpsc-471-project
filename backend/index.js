@@ -147,6 +147,17 @@ app.put("/api/agent/:id", async (req, res) => {
   res.json(agent);
 });
 
+app.get("/api/agent/:id", async (req, res) => {
+  const { id } = req.params;
+  const agent = await prisma.agent.findUnique({
+    where: {
+      id: Number(id)
+    }
+  })
+
+  res.json(agent);
+})
+
 app.get("/api/buyer", async (_, res) => {
   const buyers = await prisma.buyer.findMany();
   res.json(buyers);
@@ -187,6 +198,19 @@ app.put("/api/buyer/:id", async (req, res) => {
     .catch(_ => {
       res.sendStatus(400);
     });
+
+  res.json(buyer);
+});
+
+app.get("/api/buyer/:id", async (req, res) => {
+  const { id } = req.params;
+  const buyer = await prisma.buyer.findUnique({
+    where: {
+      id: Number(id),
+    }
+  }).catch(_ => {
+    res.sendStatus(400);
+  });
 
   res.json(buyer);
 });
