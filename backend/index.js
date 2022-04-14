@@ -54,14 +54,13 @@ app.post("/api/client", async (req, res) => {
 
 app.put("/api/client/:id", async (req, res) => {
   const { id } = req.params;
-  const { email, fname, lname, phone_num, agent_id } = req.body;
+  const { fname, lname, phone_num, agent_id } = req.body;
   const client = await prisma.client
     .update({
       where: {
         id: Number(id),
       },
       data: {
-        email,
         fname,
         lname,
         phone_num,
@@ -126,14 +125,13 @@ app.post("/api/agent", async (req, res) => {
 
 app.put("/api/agent/:id", async (req, res) => {
   const { id } = req.params;
-  const { email, fname, lname, phone_num, city } = req.body;
+  const { fname, lname, phone_num, city } = req.body;
   const agent = await prisma.agent
     .update({
       where: {
         id: Number(id),
       },
       data: {
-        email,
         fname,
         lname,
         phone_num,
@@ -151,15 +149,28 @@ app.get("/api/agent/:id", async (req, res) => {
   const { id } = req.params;
   const agent = await prisma.agent.findUnique({
     where: {
-      id: Number(id)
-    }
-  })
+      id: Number(id),
+    },
+  });
 
   res.json(agent);
-})
+});
 
 app.get("/api/buyer", async (_, res) => {
-  const buyers = await prisma.buyer.findMany();
+  const buyers = await prisma.buyer.findMany({
+    include: {
+      client: {
+        select: {
+          id: false,
+          email: true,
+          fname: true,
+          lname: true,
+          phone_num: true,
+          agent_id: true,
+        },
+      },
+    },
+  });
   res.json(buyers);
 });
 
@@ -204,13 +215,27 @@ app.put("/api/buyer/:id", async (req, res) => {
 
 app.get("/api/buyer/:id", async (req, res) => {
   const { id } = req.params;
-  const buyer = await prisma.buyer.findUnique({
-    where: {
-      id: Number(id),
-    }
-  }).catch(_ => {
-    res.sendStatus(400);
-  });
+  const buyer = await prisma.buyer
+    .findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        client: {
+          select: {
+            id: false,
+            email: true,
+            fname: true,
+            lname: true,
+            phone_num: true,
+            agent_id: true,
+          },
+        },
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
 
   res.json(buyer);
 });
@@ -296,7 +321,20 @@ app.get("/api/seller/:id", async (req, res) => {
 });
 
 app.get("/api/renter", async (_, res) => {
-  const renters = await prisma.renter.findMany();
+  const renters = await prisma.renter.findMany({
+    include: {
+      client: {
+        select: {
+          id: false,
+          email: true,
+          fname: true,
+          lname: true,
+          phone_num: true,
+          agent_id: true,
+        },
+      },
+    },
+  });
   res.json(renters);
 });
 
@@ -328,6 +366,33 @@ app.put("/api/renter/:id", async (req, res) => {
       data: {
         type,
         requirement_id,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(renter);
+});
+
+app.get("/api/renter/:id", async (req, res) => {
+  const { id } = req.params;
+  const renter = await prisma.renter
+    .findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        client: {
+          select: {
+            id: false,
+            email: true,
+            fname: true,
+            lname: true,
+            phone_num: true,
+            agent_id: true,
+          },
+        },
       },
     })
     .catch(_ => {
@@ -460,7 +525,7 @@ app.put("/api/contact/:id", async (req, res) => {
 app.get("/api/contact/:id", async (req, res) => {
   const { id } = req.params;
   const contact = await prisma.contact
-    .findOne({
+    .findUnique({
       where: {
         id: Number(id),
       },
@@ -707,6 +772,30 @@ app.get("/api/rental_property/:id", async (req, res) => {
 
   res.json(rental_property);
 });
+
+app.get("/api/requirement", async (req, res) => {
+  const clientId = req.query.client_id;
+  let requirements;
+  if (clientId) {
+    requirements = await prisma.requirement
+      .findMany({
+        where: {
+          id: Number(clientId),
+        },
+      })
+      .catch(_ => {
+        res.sendStatus(400);
+      });
+  } else {
+    requirements = await prisma.requirement.findMany({}).catch(_ => {
+      res.sendStatus(400);
+    });
+  }
+
+  res.json(requirements);
+});
+
+app.post("/api/requirement", async (req, res) => {});
 
 const unknownEndpoint = (req, res) => {
   console.dir(req.params);

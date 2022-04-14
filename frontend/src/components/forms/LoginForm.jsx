@@ -16,6 +16,7 @@ import {
   MaterialRadio,
   MaterialTextField,
 } from "../MaterialFormik";
+import { Navigate } from "react-router-dom";
 
 const BASE_URL = process.env.BASE_URL || "localhost:3001";
 
@@ -26,6 +27,7 @@ const loginSchema = yup.object({
 
 const LoginForm = () => {
   const [open, setOpen] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
 
   const handleClose = (_, reason) => {
     if (reason === "clickaway") {
@@ -34,8 +36,11 @@ const LoginForm = () => {
     setOpen(false);
   };
 
-  return (
+  if (submitted) {
+    return <Navigate to="/app" />;
+  }
 
+  return (
     <>
       <Formik
         initialValues={{
@@ -52,17 +57,43 @@ const LoginForm = () => {
                   setOpen(true);
                 } else {
                   const client = res.data;
-
+                  client.userType = "client";
                   // Now check if they are buyer/seller/renter/landlord
-                  axios.get(`http://${BASE_URL}/api/buyer/${client.id}`).then(res => {
-                    if (!res.data) {
-                      client.buyer = true;
-                    }
-                  })
+                  axios
+                    .get(`http://${BASE_URL}/api/buyer/${client.id}`)
+                    .then(res => {
+                      if (res.data) {
+                        client.buyer = true;
+                      }
+                    });
 
-                  console.log(client);
+                  axios
+                    .get(`http://${BASE_URL}/api/seller/${client.id}`)
+                    .then(res => {
+                      if (res.data) {
+                        client.seller = true;
+                      }
+                    });
+
+                  axios
+                    .get(`http://${BASE_URL}/api/renter/${client.id}`)
+                    .then(res => {
+                      if (res.data) {
+                        client.renter = true;
+                      }
+                    });
+
+                  axios
+                    .get(`http://${BASE_URL}/api/landlord/${client.id}`)
+                    .then(res => {
+                      if (res.data) {
+                        client.landlord = true;
+                      }
+                    });
+
+                  localStorage.setItem("user", JSON.stringify(client));
+                  setSubmitted(true);
                 }
-                // localStorage.setItem("user", JSON.stringify(client));
               });
           } else {
             axios
@@ -72,9 +103,14 @@ const LoginForm = () => {
                   setOpen(true);
                 } else {
                   const agent = res.data;
-                  console.log(agent);
+                  agent.userType = "agent";
+
+                  localStorage.setItem("user", JSON.stringify(agent));
+                  setSubmitted(true);
                 }
-                // localStorage.setItem("user", JSON.stringify(agent));
+              })
+              .catch(err => {
+                console.log(err);
               });
           }
           setSubmitting(false);
@@ -132,7 +168,7 @@ const LoginForm = () => {
         </Alert>
       </Snackbar>
     </>
-  )
+  );
 };
 
 export default LoginForm;

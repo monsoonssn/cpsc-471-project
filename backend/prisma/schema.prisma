@@ -166,7 +166,6 @@ model requirement {
   bathrooms     Decimal?  @db.Decimal
   bedrooms      Int?
   neighbourhood String?   @db.VarChar
-  yard          Int?
   buyer         buyer[]
   renter        renter[]
 }

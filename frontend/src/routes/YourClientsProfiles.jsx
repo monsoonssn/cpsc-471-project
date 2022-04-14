@@ -171,7 +171,6 @@ const YourClientsProfiles = () => {
             {clients.map((client) => (
               <Grid item key={client.id} xs={12} sm={6} md={4}>
                 <ClientCard client={client} />
-                
               </Grid>
             ))}
           </Grid>

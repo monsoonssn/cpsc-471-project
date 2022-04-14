@@ -29,13 +29,16 @@ import {
   MaterialTextField,
 } from "../components/MaterialFormik";
 import { Form, Formik } from "formik";
-import { ADD_CLIENT_VALIDATION, CLIENT_INIT_VALUES } from "../components/GeneralFormValidation.js";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
+import {
+  ADD_CLIENT_VALIDATION,
+  CLIENT_INIT_VALUES,
+} from "../components/GeneralFormValidation.js";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ListingCard from "../components/ListingCard.js";
 
 
 const BASE_URL = "http://localhost:3001";
@@ -90,7 +93,8 @@ const Listing = () => {
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
-                    onClick={handleClickOpen} >
+                    onClick={handleClickOpen}
+                  >
                     Add A Listing
                   </Button>
                   <Dialog open={open} onClose={handleClose}>
@@ -100,46 +104,95 @@ const Listing = () => {
                         initialValues={CLIENT_INIT_VALUES}
                         onSubmit={async (values, { setSubmitting }) => {
                           setSubmitting(true);
-                          axios.get(`${BASE_URL}/api/client? client_email=${values.email}`).then(res => {
-                            if (res) {
-                              console.log(res);
-                            }
-                          });
+                          axios
+                            .get(
+                              `${BASE_URL}/api/client? client_email=${values.email}`
+                            )
+                            .then(res => {
+                              if (res) {
+                                console.log(res);
+                              }
+                            });
                           alert(JSON.stringify(values, null, 2));
                           setSubmitting(false);
-
                         }}
                         validationSchema={ADD_CLIENT_VALIDATION}
                       >
                         {({ values }) => {
                           return (
                             <Form>
-                              <MaterialTextField name="listingDate" label="Listing Date"  />
-                              <MaterialTextField name="sqFeet" label="Total Feet"  />
-                              <MaterialTextField name="streetNumber" label="Street Number" />
-                              <MaterialTextField name="unitNumber" label="Unit Number"  />
-                              <MaterialTextField name="streetName" label="Street Name"  />
-                              <MaterialTextField name="city" label="City"  />
-                              <MaterialTextField name="postalCode" label="Postal Code" />
-                              <MaterialTextField name="askingPrice" label="Asking Price"  />
-                              <MaterialTextField name="strataCostPerMonth" label="Strata Cost Per Month"  />
-                              <MaterialTextField name="parking" label="Parking"  />
-                              <MaterialTextField name="bedrooms" label="Number of Bedrooms" />
-                              <MaterialTextField name="bathrooms" label="Number of Bathrooms"  />
-                              <MaterialTextField name="streetName" label="Street Name"  />
-                              <MaterialTextField name="neighbourhood" label="Neighbourhood"  />
-                              <MaterialTextField name="yard" label="Yard Description" />
-                              <MaterialTextField name="yearBuilt" label="Year Built"  />
+                              <MaterialTextField
+                                name="listingDate"
+                                label="Listing Date"
+                              />
+                              <MaterialTextField
+                                name="sqFeet"
+                                label="Total Feet"
+                              />
+                              <MaterialTextField
+                                name="streetNumber"
+                                label="Street Number"
+                              />
+                              <MaterialTextField
+                                name="unitNumber"
+                                label="Unit Number"
+                              />
+                              <MaterialTextField
+                                name="streetName"
+                                label="Street Name"
+                              />
+                              <MaterialTextField name="city" label="City" />
+                              <MaterialTextField
+                                name="postalCode"
+                                label="Postal Code"
+                              />
+                              <MaterialTextField
+                                name="askingPrice"
+                                label="Asking Price"
+                              />
+                              <MaterialTextField
+                                name="strataCostPerMonth"
+                                label="Strata Cost Per Month"
+                              />
+                              <MaterialTextField
+                                name="parking"
+                                label="Parking"
+                              />
+                              <MaterialTextField
+                                name="bedrooms"
+                                label="Number of Bedrooms"
+                              />
+                              <MaterialTextField
+                                name="bathrooms"
+                                label="Number of Bathrooms"
+                              />
+                              <MaterialTextField
+                                name="streetName"
+                                label="Street Name"
+                              />
+                              <MaterialTextField
+                                name="neighbourhood"
+                                label="Neighbourhood"
+                              />
+                              <MaterialTextField
+                                name="yard"
+                                label="Yard Description"
+                              />
+                              <MaterialTextField
+                                name="yearBuilt"
+                                label="Year Built"
+                              />
                               <MaterialButton
                                 type="submit"
                                 variant="contained"
                                 fullWidth
                                 sx={{ mt: 3, mb: 2 }}
-                              // disabled={Formik.isSubmitting}
+                                // disabled={Formik.isSubmitting}
                               >
                                 Submit
                               </MaterialButton>
-                            </Form>);
+                            </Form>
+                          );
                         }}
                       </Formik>
                     </DialogContent>
@@ -165,9 +218,10 @@ const Listing = () => {
           }}
         >
           <Grid container spacing={4}>
-            {listings.map((l) => (
+            {listings.map(listing => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
-                <Card
+                <ListingCard listing={listing} />
+                {/* <Card
                   style={{
                     height: "100%",
                     display: "flex",
@@ -193,7 +247,7 @@ const Listing = () => {
                       View
                     </Button>
                   </CardActions>
-                </Card>
+                </Card> */}
               </Grid>
             ))}
           </Grid>
