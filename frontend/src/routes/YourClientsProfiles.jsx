@@ -127,11 +127,11 @@ const YourClientsProfiles = () => {
                         {({ values }) => {
                           return (
                             <Form>
-                              <MaterialTextField name="firstName" label="First Name" required />
+                              <MaterialTextField name="firstName" label="First Name" />
                               <MaterialTextField name="lastName"
-                                label="Last Name" required />
+                                label="Last Name"  />
                               <MaterialTextField name="phoneNumber" label="Phone Number" />
-                              <MaterialTextField name="email" label="Email" required />
+                              <MaterialTextField name="email" label="Email"  />
                               <MaterialButton
                                 type="submit"
                                 variant="contained"

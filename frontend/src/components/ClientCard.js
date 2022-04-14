@@ -55,42 +55,33 @@ const ClientCard = ({ client }) => {
         <Dialog open={openAdd} onClose={handleCloseAdd}>
           <DialogTitle>View Client</DialogTitle>
           <DialogContent>
-            <Formik
-              initialValues={CLIENT_INIT_VALUES}
-              onSubmit={async (values, { setSubmitting }) => {
-                setSubmitting(true);
-                axios.get(`${BASE_URL}/api/client? client_email=${values.email}`).then(res => {
-                  if (res) {
-                    console.log(res);
-                  }
-                });
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
 
+            <CardContent
+              style={{
+                flexGrow: 1,
               }}
-              validationSchema={ADD_CLIENT_VALIDATION}
             >
-
-              <CardContent
-                style={{
-                  flexGrow: 1,
-                }}
-              >
+              <Typography gutterBottom variant="h5">
+                {client.fname} {client.lname}
+              </Typography>
+              <Typography>{client.email}
+                {client.phoneNumber}
+                {/* <Contact contact={client} /> 
                 <Typography gutterBottom variant="h5">
-                  {client.fname} {client.lname}
+                  {contact.fname} {contact.lname}
                 </Typography>
-                <Typography>{client.email}
-                  {client.phoneNumber}
-                  {/* <Contact contact={client} /> */}
-                </Typography>
-              </CardContent>
-            </Formik>
+                <Typography>{contact.email}
+                  {contact.phoneNumber} */}
+                {/* </Typography> */}
+              </Typography>
+            </CardContent>
           </DialogContent>
         </Dialog>
       </CardActions>
     </Card>
   );
 }
+
 const Contact = ({ contact }) => {
   // const contact = {
   //   fname: "Han",
@@ -108,6 +99,25 @@ const Contact = ({ contact }) => {
       <Typography>{contact.email}
         {contact.phoneNumber}
       </Typography>
+    </CardContent>
+  )
+}
+
+const Requirement = ({requirement}) => {
+
+  return(
+    <CardContent
+       style={{
+        flexGrow: 1,
+      }}
+    >
+      <Typography gutterBottom variant="h5">
+        Minimum year Built: {requirement.year_built} Minimum square footage: {sq_feet.lname}
+      </Typography>
+      <Typography> Minimum number of bathrooms: {requirement.bathrooms}
+       Minimum number of bedrooms: {requirement.bedrooms} Preferered Neightbourhood: 
+      </Typography>
+
     </CardContent>
   )
 }
