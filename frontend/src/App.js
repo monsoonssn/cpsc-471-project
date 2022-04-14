@@ -7,7 +7,7 @@ import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./App.css";
 import { AgentLinks, ClientLinks } from "./Links";
 
@@ -15,10 +15,13 @@ const drawerWidth = 240;
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const [loggingOut, setLoggingOut] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
+    setLoggingOut(true);
     localStorage.removeItem("user");
-    return <Navigate to="/" />;
+    navigate(0);
   };
 
   return (
@@ -36,7 +39,12 @@ const App = () => {
             <Typography variant="h6" noWrap component="div">
               Real Estate Database
             </Typography>
-            <Button variant="contained" color="error" /* action={handleLogOut} */ >
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleLogOut}
+              disabled={loggingOut}
+            >
               Log out
             </Button>
           </Toolbar>
@@ -55,7 +63,13 @@ const App = () => {
         >
           <Toolbar />
           <Divider />
-          {user.userType === "agent" ? <AgentLinks /> : <AgentLinks />}
+          {(() => {
+            if (user && user.role === "agent") {
+              return <AgentLinks />;
+            } else {
+              return <AgentLinks />;
+            }
+          })()}
         </Drawer>
         <Box
           component="main"

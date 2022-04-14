@@ -38,7 +38,6 @@ ReactDOM.render(
         path="/signup"
         element={isLoggedIn ? <Navigate to="/app" /> : <Signup />}
       />
-      {/* <Route path="/app" element={<PrivateRoute />} /> */}
       <Route path="/app" element={<PrivateRoute auth={isLoggedIn} />}>
         <Route path="/app" element={<App />}>
           <Route path="yourProfile" element={<YourProfile />} />
