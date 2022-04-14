@@ -22,6 +22,22 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import {
+  MaterialButton,
+  MaterialCheckbox,
+  MaterialRadio,
+  MaterialTextField,
+} from "../components/MaterialFormik";
+import { Form, Formik } from "formik";
+import { ADD_CLIENT_VALIDATION, CLIENT_INIT_VALUES } from "../components/GeneralFormValidation.js";
+
+
 
 const BASE_URL = "http://localhost:3001";
 
@@ -29,7 +45,14 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const YourClientsProfiles = () => {
   const [clients, setClients] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const getClients = () => {
     console.log("getting clients...");
     axios.get(`${BASE_URL}/api/client`).then(res => {
@@ -71,16 +94,61 @@ const YourClientsProfiles = () => {
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
-                  >
+                    onClick={handleClickOpen} >
+
                     Refine Search
                   </Button>
+
+                  <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Add Client</DialogTitle>
+                    <DialogContent>
+                      <Formik
+                        initialValues={CLIENT_INIT_VALUES}
+                        onSubmit={async (values, { setSubmitting }) => {
+                          setSubmitting(true);
+                          axios.get(`${BASE_URL}/api/client? client_email=${values.email}`).then(res => {
+                            if (res) {
+                              console.log(res);
+                            }
+                          });
+                          alert(JSON.stringify(values, null, 2));
+                          setSubmitting(false);
+
+                        }}
+                        validationSchema={ADD_CLIENT_VALIDATION}
+                      >
+                        {({ values }) => {
+                          return (
+                            <Form>
+                              <MaterialTextField name="firstName" label="First Name" required />
+                              <MaterialTextField name="lastName"
+                                label="Last Name" required />
+                              <MaterialTextField name="phoneNumber" label="Phone Number" />
+                              <MaterialTextField name="email" label="Email" required />
+                              <MaterialButton
+                                type="submit"
+                                variant="contained"
+                                fullWidth
+                                sx={{ mt: 3, mb: 2 }}
+                              // disabled={Formik.isSubmitting}
+                              >
+                                Submit
+                              </MaterialButton>
+                            </Form>);
+                        }}
+                      </Formik>
+                    </DialogContent>
+                  </Dialog>
+
                   <Button
                     variant="outlined"
                     color="primary"
                     style={{ marginTop: "40px", marginBottom: "40px" }}
-                  >
+                    onClick={handleClickOpen}>
+
                     Add A Client
                   </Button>
+
                 </Grid>
               </Grid>
             </div>
@@ -128,14 +196,6 @@ const YourClientsProfiles = () => {
           </Grid>
         </Container>
       </main>
-      {/* <footer style ={{padding: '50px 0'}}>
-        <Typography variant="h6" align= "center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSeconday">
-          Something here to give the footer a purpose!
-        </Typography>
-      </footer> */}
     </>
   );
 };
