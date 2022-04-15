@@ -55,7 +55,7 @@ const ListingCard = ({ listing }) => {
                 flexGrow: 1,
               }}
             >
-              <Typography>{listing.id}</Typography>
+              
               <Typography>
                 Listing Date: {listing.listing_date.substring(0, 10)}
               </Typography>

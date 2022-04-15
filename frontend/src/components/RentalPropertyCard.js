@@ -57,17 +57,17 @@ const RentalPropertyCard = ({ rental_property }) => {
               }}
             >
               <Typography>
-                Listing Date: {rental_property.listing_date}
+                Listing Date: {rental_property.listing_date.substring(0, 10)}
               </Typography>
               <Typography>
-                Total square footage:
+                Total square footage: {" "}
                 {rental_property.sq_feet}
               </Typography>
               <Typography>
                 {" "}
                 Address: {rental_property.street_number}{" "}
-                {rental_property.unit_number} {rental_property.street_name}
-                {rental_property.city} {rental_property.postal_code}
+                {rental_property.unit_number} {rental_property.street_name} {" "}
+                {rental_property.city}{" "} {rental_property.postal_code}
               </Typography>
               <Typography>
                 Asking price: {rental_property.asking_price}
