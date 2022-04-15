@@ -42,7 +42,7 @@ model agent {
 
 model appointment {
   id               Int                @id @default(autoincrement())
-  timestamp        DateTime           @db.Timestamp(6)
+  timestamp        String             @db.VarChar
   location         String             @db.VarChar
   a_a_appointments a_a_appointments[]
   a_c_appointments a_c_appointments[]

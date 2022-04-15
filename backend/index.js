@@ -106,7 +106,8 @@ app.get("/api/agent", async (req, res) => {
 });
 
 app.post("/api/agent", async (req, res) => {
-  const { email, fname, lname, phone_num, city } = req.body;
+  const { email, fname, lname, phone_num } = req.body;
+  console.log(req.body);
   const agent = await prisma.agent
     .create({
       data: {
@@ -114,7 +115,6 @@ app.post("/api/agent", async (req, res) => {
         fname,
         lname,
         phone_num,
-        city,
       },
     })
     .catch(_ => {
@@ -126,7 +126,7 @@ app.post("/api/agent", async (req, res) => {
 
 app.put("/api/agent/:id", async (req, res) => {
   const { id } = req.params;
-  const { fname, lname, phone_num, city } = req.body;
+  const { fname, lname, phone_num } = req.body;
   const agent = await prisma.agent
     .update({
       where: {
@@ -136,7 +136,6 @@ app.put("/api/agent/:id", async (req, res) => {
         fname,
         lname,
         phone_num,
-        city,
       },
     })
     .catch(_ => {
@@ -341,7 +340,6 @@ app.get("/api/renter", async (_, res) => {
 
 app.post("/api/renter", async (req, res) => {
   const { id, requirement_id } = req.body;
-  console.log(req.body);
   const renter = await prisma.renter
     .create({
       data: {
@@ -890,10 +888,10 @@ app.put("/api/appointment/:id", async (req, res) => {
   res.json(appointment);
 });
 
-app.get("/app/appointment/:id", async (req, res) => {
+app.get("/api/appointment/:id", async (req, res) => {
   const { id } = req.params;
   const appointment = await prisma.appointment
-    .findOne({
+    .findUnique({
       where: {
         id: Number(id),
       },
