@@ -775,20 +775,24 @@ app.get("/api/rental_property/:id", async (req, res) => {
 });
 
 app.get("/api/requirement", async (req, res) => {
-  const clientId = req.query.client_id;
+  const clientId = Number(req.query.client_id);
   let requirements;
+
   if (clientId) {
-    requirements = await prisma.requirement
-      .findMany({
+    const buyers = await prisma.buyer.findMany();
+    const renters = await prisma.renter.findMany();
+    let result = buyers.find(buyer => buyer.id === clientId);
+    if (!result) result = renters.find(renter => renter.id === clientId);
+    if (!result) requirements = null;
+    else {
+      requirements = await prisma.requirement.findFirst({
         where: {
-          id: Number(clientId),
+          id: result.requirement_id,
         },
-      })
-      .catch(_ => {
-        res.sendStatus(400);
       });
+    }
   } else {
-    requirements = await prisma.requirement.findMany({}).catch(_ => {
+    requirements = await prisma.requirement.findMany().catch(_ => {
       res.sendStatus(400);
     });
   }
@@ -834,10 +838,10 @@ app.put("/api/requirement/:id", async (req, res) => {
   res.json(requirement);
 });
 
-app.get("/app/requirement/:id", async (req, res) => {
+app.get("/api/requirement/:id", async (req, res) => {
   const { id } = req.params;
   const requirement = await prisma.requirement
-    .findOne({
+    .findUnique({
       where: {
         id: Number(id),
       },
