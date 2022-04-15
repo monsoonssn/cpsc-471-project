@@ -1,22 +1,16 @@
 import {
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
   Button,
+  Card,
+  CardActions,
+  CardContent,
   Dialog,
-  DialogTitle,
   DialogContent,
+  DialogTitle,
+  Typography
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { Formik } from "formik";
-import {
-  ADD_CLIENT_VALIDATION,
-  CLIENT_INIT_VALUES,
-} from "../components/GeneralFormValidation.js";
-
-// Unnecessary things here
 import axios from "axios";
+import React, { useEffect } from "react";
+
 const BASE_URL = process.env.BASE_URL || "localhost:3001";
 
 const ClientCard = ({ client }) => {
@@ -92,7 +86,7 @@ const ClientCard = ({ client }) => {
               <Typography>{client.email}</Typography>
               <Typography>{client.phone_num}</Typography>
               {(() => {
-                if (contacts.length == 0) {
+                if (contacts.length === 0) {
                   return <Typography>No contacts for this client.</Typography>;
                 } else {
                   return (
@@ -106,7 +100,7 @@ const ClientCard = ({ client }) => {
                 }
               })()}
               {(() => {
-                if (requirements.length == 0) {
+                if (requirements.length === 0) {
                   return (
                     <Typography>No requirements for this client.</Typography>
                   );

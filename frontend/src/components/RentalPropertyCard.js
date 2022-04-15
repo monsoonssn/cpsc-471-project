@@ -1,26 +1,17 @@
 import {
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
   Button,
+  Card,
+  CardActions,
+  CardContent,
   Dialog,
-  DialogTitle,
   DialogContent,
+  DialogTitle,
+  Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { Formik } from "formik";
-import {
-  ADD_LISTING_VALIDATION,
-  LISTING_INIT_VALUES,
-} from "./GeneralFormValidation.js";
-
-import axios from "axios";
-const BASE_URL = process.env.BASE_URL || "localhost:3001";
+import React from "react";
 
 const RentalPropertyCard = ({ rental_property }) => {
   const [openAdd, setOpenAdd] = React.useState(false);
-  // const [rentalPoperties, setRentalPoperties] = React.useState([]);
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
@@ -28,6 +19,7 @@ const RentalPropertyCard = ({ rental_property }) => {
   const handleCloseAdd = () => {
     setOpenAdd(false);
   };
+
   return (
     <Card
       key={rental_property.id}
@@ -64,10 +56,6 @@ const RentalPropertyCard = ({ rental_property }) => {
                 flexGrow: 1,
               }}
             >
-              {/* <Typography gutterBottom variant="h5">
-                  {rental_property.street_number}
-                  {rental_property.unit_number} {rental_property.street_name} {rental_property.city} {rental_property.postal_code}
-                </Typography> */}
               <Typography>
                 Listing Date: {rental_property.listing_date}
               </Typography>
@@ -108,6 +96,5 @@ const RentalPropertyCard = ({ rental_property }) => {
     </Card>
   );
 };
-
 
 export default RentalPropertyCard;

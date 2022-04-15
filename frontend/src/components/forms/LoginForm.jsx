@@ -1,22 +1,20 @@
 import CloseIcon from "@mui/icons-material/Close";
 import {
-  Alert,
-  FormGroup,
-  IconButton,
+  Alert, IconButton,
   RadioGroup,
   Snackbar,
-  Typography,
+  Typography
 } from "@mui/material";
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import {
   MaterialButton,
   MaterialRadio,
-  MaterialTextField,
+  MaterialTextField
 } from "../MaterialFormik";
-import { useNavigate } from "react-router-dom";
 
 const BASE_URL = process.env.BASE_URL || "localhost:3001";
 

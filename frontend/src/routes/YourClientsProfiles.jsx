@@ -21,12 +21,9 @@ import {
 
 const BASE_URL = process.env.BASE_URL || "localhost:3001";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const YourClientsProfiles = () => {
   const [clients, setClients] = React.useState([]);
   const [openView, setOpenView] = React.useState(false);
-  const [openAdd, setOpenAdd] = React.useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleClickOpenView = () => {
@@ -34,12 +31,6 @@ const YourClientsProfiles = () => {
   };
   const handleCloseView = () => {
     setOpenView(false);
-  };
-  const handleClickOpenAdd = () => {
-    setOpenAdd(true);
-  };
-  const handleCloseAdd = () => {
-    setOpenAdd(false);
   };
 
   const getClients = () => {
@@ -114,7 +105,7 @@ const YourClientsProfiles = () => {
                         }}
                         validationSchema={ADD_CLIENT_VALIDATION}
                       >
-                        {({ values, isSubmitting }) => {
+                        {({ _, isSubmitting }) => {
                           return (
                             <Form>
                               <MaterialTextField

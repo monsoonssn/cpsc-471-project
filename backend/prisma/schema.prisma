@@ -160,12 +160,12 @@ model renter {
 }
 
 model requirement {
-  id            Int       @id @default(autoincrement())
-  year_built    DateTime? @db.Date
+  id            Int      @id @default(autoincrement())
   sq_feet       Int?
-  bathrooms     Decimal?  @db.Decimal
+  bathrooms     Decimal? @db.Decimal
   bedrooms      Int?
-  neighbourhood String?   @db.VarChar
+  neighbourhood String?  @db.VarChar
+  year_built    Int?
   buyer         buyer[]
   renter        renter[]
 }

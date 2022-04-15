@@ -1,27 +1,23 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import CardActions from "@mui/material/CardActions";
-import {
-  MaterialButton,
-  MaterialTextField,
-} from "../components/MaterialFormik";
+import Card from "@mui/material/Card";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import axios from "axios";
 import { Form, Formik } from "formik";
+import React, { useEffect } from "react";
 import {
   ADD_RENTAL_PROPERTY_VALIDATION,
-  RENTAL_PROPERTY_INIT_VALUES,
+  RENTAL_PROPERTY_INIT_VALUES
 } from "../components/GeneralFormValidation.js";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  MaterialButton,
+  MaterialTextField
+} from "../components/MaterialFormik";
 import RentalPropertyCard from "../components/RentalPropertyCard";
 
 const BASE_URL = "http://localhost:3001";
@@ -187,36 +183,6 @@ const RentalProperties = () => {
             {rentalProperties.map(rp => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
                 <RentalPropertyCard rental_property={rp} />
-                {/* <Card
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardContent
-                    style={{
-                      flexGrow: 1,
-                    }}
-                  >
-                    <Typography gutterBottom variant="h5">
-                      {rp.street_number}{rp.unit_number} {rp.street_name} {rp.city}
-                    </Typography>
-                    <Typography>Bedrooms: {rp.bedrooms}</Typography>
-                    <Typography>Bathrooms: {rp.bathrooms}</Typography>
-                    <Typography>Price: ${rp.asking_price} Per Month</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      {" "}
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      {" "}
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card> */}
               </Grid>
             ))}
           </Grid>

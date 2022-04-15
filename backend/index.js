@@ -1,6 +1,7 @@
 import prismaPkg from "@prisma/client";
 import express from "express";
 import cors from "cors";
+import e from "express";
 const { PrismaClient } = prismaPkg;
 
 const app = express();
@@ -339,12 +340,12 @@ app.get("/api/renter", async (_, res) => {
 });
 
 app.post("/api/renter", async (req, res) => {
-  const { id, type, requirement_id } = req.body;
+  const { id, requirement_id } = req.body;
+  console.log(req.body);
   const renter = await prisma.renter
     .create({
       data: {
         id,
-        type,
         requirement_id,
       },
     })
@@ -643,7 +644,7 @@ app.put("/api/listing/:id", async (req, res) => {
 app.get("/api/listing/:id", async (req, res) => {
   const { id } = req.params;
   const listing = await prisma.listing
-    .findOne({
+    .findUnique({
       where: {
         id: Number(id),
       },
@@ -831,13 +832,73 @@ app.put("/api/requirement/:id", async (req, res) => {
     });
 
   res.json(requirement);
-})
+});
 
-app.get("/app/requirement/:id", async (req, res) => {})
+app.get("/app/requirement/:id", async (req, res) => {
+  const { id } = req.params;
+  const requirement = await prisma.requirement
+    .findOne({
+      where: {
+        id: Number(id),
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(requirement);
+});
 
 app.get("/api/appointment", async (req, res) => {
   const appointments = await prisma.appointment.findMany();
   res.json(appointments);
+});
+
+app.post("/api/appointment", async (req, res) => {
+  const { timestamp, location } = req.body;
+  const appointment = await prisma.appointment.create({
+    data: {
+      timestamp,
+      location,
+    },
+  });
+
+  res.json(appointment);
+});
+
+app.put("/api/appointment/:id", async (req, res) => {
+  const { id } = req.params;
+  const { timestamp, location } = req.body;
+  const appointment = await prisma.appointment
+    .update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        timestamp,
+        location,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(appointment);
+});
+
+app.get("/app/appointment/:id", async (req, res) => {
+  const { id } = req.params;
+  const appointment = await prisma.appointment
+    .findOne({
+      where: {
+        id: Number(id),
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(appointment);
 });
 
 const unknownEndpoint = (req, res) => {

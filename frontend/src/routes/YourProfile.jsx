@@ -1,13 +1,11 @@
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import axios from "axios";
+import React, { useEffect } from "react";
 
 const BASE_URL = "localhost:3001";
 
@@ -23,6 +21,8 @@ const YourProfile = () => {
       setUserData(res.data);
     });
   };
+
+  useEffect(getProfileInformation, []);
 
   return (
     <>
@@ -77,7 +77,6 @@ const YourProfile = () => {
                     <Typography>Phone: {userData.phone_num}</Typography>
                     <Typography>Email: {userData.email}</Typography>
                   </CardContent>
-                  {/* <CardActions></CardActions> */}
                 </Card>
               </Grid>
             ))}
