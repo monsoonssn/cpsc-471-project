@@ -795,7 +795,45 @@ app.get("/api/requirement", async (req, res) => {
   res.json(requirements);
 });
 
-app.post("/api/requirement", async (req, res) => {});
+app.post("/api/requirement", async (req, res) => {
+  const { year_built, sq_feet, neighbourhood, bathrooms, bedrooms } = req.body;
+  const requirement = await prisma.requirement.create({
+    data: {
+      year_built,
+      sq_feet,
+      neighbourhood,
+      bathrooms,
+      bedrooms,
+    },
+  });
+
+  res.json(requirement);
+});
+
+app.put("/api/requirement/:id", async (req, res) => {
+  const { id } = req.params;
+  const { year_built, sq_feet, neighbourhood, bathrooms, bedrooms } = req.body;
+  const requirement = await prisma.requirement
+    .update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        year_built,
+        sq_feet,
+        neighbourhood,
+        bathrooms,
+        bedrooms,
+      },
+    })
+    .catch(_ => {
+      res.sendStatus(400);
+    });
+
+  res.json(requirement);
+})
+
+app.get("/app/requirement/:id", async (req, res) => {})
 
 app.get("/api/appointment", async (req, res) => {
   const appointments = await prisma.appointment.findMany();

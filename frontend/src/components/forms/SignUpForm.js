@@ -219,7 +219,6 @@ const SignUpForm = () => {
               >
                 Sign Up
               </MaterialButton>
-              <pre>{JSON.stringify(values, null, 2)}</pre>
             </Form>
           );
         }}
