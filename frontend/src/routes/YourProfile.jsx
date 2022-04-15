@@ -16,10 +16,15 @@ const YourProfile = () => {
   const [userData, setUserData] = React.useState({});
 
   const getProfileInformation = () => {
-    axios.get(`http://${BASE_URL}/api/agent/${user.id}`).then(res => {
-      console.log(res.data);
-      setUserData(res.data);
-    });
+    if (user.userType === "agent") {
+      axios.get(`http://${BASE_URL}/api/agent/${user.id}`).then(res => {
+        setUserData(res.data);
+      });
+    } else {
+      axios.get(`http://${BASE_URL}/api/client/${user.id}`).then(res => {
+        setUserData(res.data);
+      });
+    }
   };
 
   useEffect(getProfileInformation, []);
