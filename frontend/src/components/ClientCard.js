@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Typography
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect } from "react";
@@ -16,7 +16,7 @@ const BASE_URL = process.env.BASE_URL || "localhost:3001";
 const ClientCard = ({ client }) => {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [contacts, setContacts] = React.useState([]);
-  const [requirements, setRequirements] = React.useState([]);
+  const [requirement, setRequirement] = React.useState([]);
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
@@ -35,18 +35,18 @@ const ClientCard = ({ client }) => {
       });
   };
 
-  const getRequirements = () => {
+  const getRequirement = () => {
     console.log("getting requirements...");
     axios
       .get(`http://${BASE_URL}/api/requirement?client_id=${client.id}`)
       .then(res => {
-        setRequirements(res.data);
+        setRequirement(res.data);
         console.log("promise fulfilled");
       });
   };
 
   useEffect(getContacts, []);
-  useEffect(getRequirements, []);
+  useEffect(getRequirement, []);
 
   return (
     <Card
@@ -100,7 +100,7 @@ const ClientCard = ({ client }) => {
                 }
               })()}
               {(() => {
-                if (requirements.length === 0) {
+                if (!requirement) {
                   return (
                     <Typography>No requirements for this client.</Typography>
                   );
@@ -108,12 +108,10 @@ const ClientCard = ({ client }) => {
                   return (
                     <>
                       <Typography variant="h6">Requirements:</Typography>
-                      {requirements.map(requirement => (
-                        <Requirement
-                          requirement={requirement}
-                          key={requirement.id}
-                        />
-                      ))}
+                      <Requirement
+                        requirement={requirement}
+                        key={requirement.id}
+                      />
                     </>
                   );
                 }
@@ -127,10 +125,6 @@ const ClientCard = ({ client }) => {
 };
 
 const Contact = ({ contact }) => {
-  // const contact = {
-  //   fname: "Han",
-  //   lname: "Solo"
-  // }
   return (
     <CardContent
       style={{

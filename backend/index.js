@@ -851,7 +851,7 @@ app.get("/api/requirement/:id", async (req, res) => {
   res.json(requirement);
 });
 
-app.get("/api/appointment", async (req, res) => {
+app.get("/api/appointment", async (_, res) => {
   const appointments = await prisma.appointment.findMany();
   res.json(appointments);
 });
