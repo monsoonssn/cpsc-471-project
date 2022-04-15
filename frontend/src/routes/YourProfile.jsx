@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import React from "react";
+import axios from "axios";
 
 const BASE_URL = "localhost:3001";
 

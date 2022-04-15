@@ -144,13 +144,13 @@ const Appointment = () => {
                       Appointment Id: 45
                     </Typography>
                     <Typography>
-                      With: Client Name or agent name
+                      With: agent name
                     </Typography>
                     <Typography>
-                      Email: john.cena@live.com
+                      Location: Coffee Shop
                     </Typography>
                     <Typography>
-                      City: Calgary
+                      Date/Time: 
                     </Typography>
                   </CardContent>
               </Card>

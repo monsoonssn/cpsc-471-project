@@ -203,33 +203,6 @@ const Listing = () => {
             {listings.map(listing => (
               <Grid item key={Card} xs={12} sm={6} md={4}>
                 <ListingCard listing={listing} />
-                {/* <Card
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardContent
-                    style={{
-                      flexGrow: 1,
-                    }}
-                  >
-                    <Typography gutterBottom variant="h5">
-                      {l.street_number}{l.unit_number} {l.street_name} {l.city}
-                    </Typography>
-                    <Typography>Bedrooms: {l.bedrooms}</Typography>
-                    <Typography>Bathrooms: {l.bathrooms}</Typography>
-                    <Typography>Asking Price: ${l.asking_price} </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary"
-                    >
-                      {" "}
-                      View
-                    </Button>
-                  </CardActions>
-                </Card> */}
               </Grid>
             ))}
           </Grid>
